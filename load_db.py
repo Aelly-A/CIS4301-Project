@@ -16,4 +16,5 @@ if __name__ == "__main__":
     for line in open("books.sql", "r"):
         cur.execute(line)
 
+    cur.execute("COMMIT;")
     conn.close()

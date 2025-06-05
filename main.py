@@ -1,6 +1,4 @@
-from db_handler import checkout_book
 from helper_functions import *
-
 
 def main():
     choice = print_main_menu()
@@ -56,7 +54,6 @@ def main():
             new_user = User(account_id=account_id, name=name, email=email, address=address, phone_number=phone_number)
             db.add_user(new_user=new_user)
 
-            pass
 
         elif choice == "7":  # Edit a User
             og_account_id = input("Enter OG Account ID: ")

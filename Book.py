@@ -14,12 +14,12 @@ class Book:
         self.total_num_at_branch = total_num_at_branch
 
     def __str__(self):
-        print("-" * 20 + "\n" +
-        f"ISBN: {self.isbn}\n" +
-        f"Title: {self.title}\n" +
-        f"Author: {self.author}\n" +
+        return ("-" * 20 + "\n" +
+        f"ISBN: {self.isbn if self.isbn else ''}\n" +
+        f"Title: {self.title if self.title else ''}\n" +
+        f"Author: {self.author if self.author else ''}\n" +
         f"Publication Year: {self.publication_year}\n" +
-        f"Publisher: {self.publisher}\n" +
+        f"Publisher: {self.publisher if self.publisher else ''}\n" +
         f"Total Num at Branch: {self.total_num_at_branch}\n" +
         "-" * 20)
         
