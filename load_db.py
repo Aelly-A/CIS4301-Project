@@ -13,8 +13,11 @@ if __name__ == "__main__":
 
     cur = conn.cursor()
 
-    for line in open("books.sql", "r"):
+    for line in open("data/book.sql", "r"):
         cur.execute(line)
 
-    cur.execute("COMMIT;")
+    for line in open("data/user.sql", "r"):
+        cur.execute(line)
+
+    conn.commit()
     conn.close()

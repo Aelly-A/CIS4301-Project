@@ -1,6 +1,5 @@
 .idea
 .DS_Store
 notes.txt
-books.sql
-Books.csv
+generate_data/Books.csv
 DONTPUSHDBHANDLER.py
