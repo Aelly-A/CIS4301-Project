@@ -19,5 +19,8 @@ if __name__ == "__main__":
     for line in open("data/user.sql", "r"):
         cur.execute(line)
 
+    for line in open("data/loanhistory.sql", "r"):
+        cur.execute(line)
+
     conn.commit()
     conn.close()

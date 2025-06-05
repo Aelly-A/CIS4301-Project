@@ -123,6 +123,8 @@ isbn - A string containing the ISBN for the book that a user desires to check ou
 account_id - A string containing the account id for the user that wants to check out the book.
 checkout_date - A string containing the date the book was checked out, formatted in YYYY-mm-dd. e.g. January 2nd, 2000
     would be 2000-01-02
+due_date - A string containing the date the book is supposed to be returned, formatted in YYYY-mm-dd. e.g. January 2nd, 
+    2000 would be 2000-01-02
     
 returns bool which is True if the user is successfully able to check out the book, and False otherwise. When checking
     out a book a new record should be inserted into the Loan table. It is important to note that the waitlist table 
@@ -130,7 +132,8 @@ returns bool which is True if the user is successfully able to check out the boo
 """
 def checkout_book(isbn: str = None,
                   account_id: str = None,
-                  checkout_date: str = None) -> bool:
+                  checkout_date: str = None,
+                  due_date: str = None) -> bool:
     return True
 
 
