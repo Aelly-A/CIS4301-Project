@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import db_handler as db
 from Book import Book
 from User import User
@@ -199,9 +199,12 @@ def checkout_book():
     else:
         user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
         people_in_line = db.line_length(isbn=isbn)
+        today = datetime.today().strftime("%Y-%m-%d")
+        due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
 
         if user_place_in_line == 1 or people_in_line == 0:
-            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id)
+            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id, checkout_date=today, due_date=due_date)
+            db.update_waitlist(isbn=isbn)
             print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
 
         else:
@@ -262,9 +265,10 @@ def add_user():
 
 
 def edit_user():
-    og_account_id = input("Enter OG Account ID: ")
-    sub_choice = print_edit_user_menu()
+    og_account_id = input("User's Account ID: ")
+    print()
     new_user = User()
+    sub_choice = '1'
 
     while sub_choice != "6" and sub_choice < "7":
         sub_choice = print_edit_user_menu()

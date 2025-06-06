@@ -23,7 +23,6 @@ def main():
         elif choice == "6":  # Add a User
             add_user()
 
-
         elif choice == "7":  # Edit a User
             edit_user()
 
@@ -33,8 +32,8 @@ def main():
         else:
             print("Choice unrecognised")
 
+        print()
         choice = print_main_menu()
-
 
     db.save_changes()
     print("Successfully saved changes")
