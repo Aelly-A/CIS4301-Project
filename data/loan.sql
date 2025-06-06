@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS Loan;
+CREATE TABLE Loan(isbn VARCHAR(16),account_id VARCHAR(16),checkout_date DATE, due_date DATE NOT NULL,PRIMARY KEY (isbn, account_id, checkout_date));
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("9812462503", "f519fac9c34a", "2025-03-20", "2025-04-03");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0023417706", "6bd7bf195b56", "2025-03-20", "2025-04-17");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0671255142", "0f1ea1817d8d", "2025-03-20", "2025-04-17");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0471179809", "c1052e83e64b", "2025-03-22", "2025-04-05");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0816714150", "1fee4139de73", "2025-03-23", "2025-04-06");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0836278755", "b2630ebeb251", "2025-03-25", "2025-04-08");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0880298391", "c9d061aebcb3", "2025-03-25", "2025-04-08");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0192839772", "03dd4c7c8580", "2025-03-27", "2025-04-10");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0451404580", "3d961e6415fc", "2025-03-30", "2025-04-27");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0451126009", "2509e3426ca6", "2025-03-31", "2025-04-28");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0345453433", "289f9704d810", "2025-03-31", "2025-04-14");
+INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("074341599X", "ee68f03d4179", "2025-03-31", "2025-04-14");

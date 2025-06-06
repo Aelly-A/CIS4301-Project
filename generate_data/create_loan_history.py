@@ -46,7 +46,7 @@ TWO_WEEKS = timedelta(weeks=2)
 
 with open("../data/loanhistory.sql", "w") as file:
     file.write("DROP TABLE IF EXISTS LoanHistory;\n")
-    file.write("CREATE TABLE Loan(")
+    file.write("CREATE TABLE LoanHistory(")
     file.write("isbn VARCHAR(16),")
     file.write("account_id VARCHAR(16),")
     file.write("checkout_date DATE, ")
@@ -77,4 +77,4 @@ with open("../data/loanhistory.sql", "w") as file:
             checkout_date = single_date.strftime("%Y-%m-%d")
             due_date = due_date.strftime("%Y-%m-%d")
 
-            file.write(f'INSERT INTO Loan (isbn, account_id, checkout_date, due_date, return_date) VALUES ("{book.isbn}", "{user}", "{checkout_date}", "{due_date}", "{return_date}");\n')
+            file.write(f'INSERT INTO LoanHistory (isbn, account_id, checkout_date, due_date, return_date) VALUES ("{book.isbn}", "{user}", "{checkout_date}", "{due_date}", "{return_date}");\n')
