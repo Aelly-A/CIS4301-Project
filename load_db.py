@@ -1,15 +1,9 @@
 from mysql.connector import connect
 
-if __name__ == "__main__":
-    username = input("Enter your SQL username: ")
-    password = input("Enter your SQL password: ")
-    port = input("Enter your SQL port (press enter for the default, 3306): ")
 
-    if port == "":
-        port = "3306"
-
-    conn = connect(user=username, password=password, host="localhost", database="library",
-                   collation='utf8mb4_unicode_ci', port=port)
+def load_db(_username=None, _password=None, _port=None):
+    conn = connect(user=_username, password=_password, host="localhost", database="library",
+                   collation='utf8mb4_unicode_ci', port=_port)
 
     cur = conn.cursor()
 
@@ -30,3 +24,13 @@ if __name__ == "__main__":
 
     conn.commit()
     conn.close()
+
+if __name__ == "__main__":
+    username = input("Enter your SQL username: ")
+    password = input("Enter your SQL password: ")
+    port = input("Enter your SQL port (press enter for the default, 3306): ")
+
+    if port == "":
+        port = "3306"
+
+    load_db(_username=username, _password=password, _port=port)

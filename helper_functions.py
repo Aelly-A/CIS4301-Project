@@ -1,6 +1,7 @@
+from datetime import datetime
+import db_handler as db
 from Book import Book
 from User import User
-import db_handler as db
 
 MAIN_MENU_OPTIONS = [
     "Checkout a Book",
@@ -32,6 +33,27 @@ USER_OPTIONS = [
     "Email",
     "Continue",
     "Cancel"
+]
+
+LOAN_OPTIONS = [
+    "ISBN",
+    "Account ID",
+    "Checkout Date",
+    "Due Date",
+]
+
+WAITLIST_OPTIONS = [
+    "ISBN",
+    "Account ID",
+    "Place in line"
+]
+
+LOAN_HISTORY_OPTIONS = [
+    "ISBN",
+    "Account ID",
+    "Checkout Date",
+    "Due Date",
+    "Return Date",
 ]
 
 def print_menu(menu_header, options):
@@ -115,7 +137,7 @@ def handle_book_menu_choice(choice, new_book=Book()):
     return new_book
 
 
-def search_for_books():
+def search_books():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_book = Book()
     sub_choice = "1"
@@ -157,11 +179,11 @@ def search_for_books():
 
 def waitlist_user(isbn=None, account_id=None):
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
-    if waitlist == "Y":
+    if waitlist:
         waitlist_successful = db.waitlist_user(isbn=isbn, account_id=account_id)
         print("Successfully waitlisted") if waitlist_successful else print("Failed to waitlist")
 
-def checkout_helper():
+def checkout_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
@@ -187,3 +209,66 @@ def checkout_helper():
 
             if people_in_line > 1:
                 waitlist_user(isbn=isbn, account_id=account_id)
+
+def return_book():
+    isbn = input("Enter ISBN: ")
+    account_id = input("Enter Account ID: ")
+    today = datetime.today().strftime("%Y-%m-%d")
+
+    return_successful = db.return_book(isbn=isbn, account_id=account_id, return_date=today)
+    print("Successfully returned") if return_successful else print("Failed to returned")
+
+def search_users():
+    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
+    new_user = User()
+    sub_choice = "1"
+
+    while sub_choice != "6" and sub_choice < "7":
+        sub_choice = print_filter_user_menu()
+        new_user = handle_user_menu_choice(sub_choice, new_user)
+
+    if sub_choice == "6":
+        found_users = db.get_filtered_users(filter_attributes=new_user, use_patterns=use_patterns)
+
+        if found_users:
+            for found_user in found_users:
+                print(found_user)
+        else:
+            print("No users found")
+
+def add_book():
+    isbn = input("Enter ISBN: ")
+    title = input("Enter Title: ")
+    author = input("Enter Author Name: ")
+    publication_year = input("Enter Publication Year: ")
+    publisher = input("Enter Publisher: ")
+    total_num_at_branch = int(input("Enter Number of Books: "))
+
+    new_book = Book(isbn=isbn, title=title, author=author, publication_year=publication_year,
+                    publisher=publisher, total_num_at_branch=total_num_at_branch)
+
+    db.add_book(new_book)
+
+
+def add_user():
+    account_id = input("Enter Account ID: ")
+    name = input("Enter Name: ")
+    email = input("Enter Email: ")
+    phone_number = input("Enter Phone Number: ")
+    address = input("Enter Address: ")
+
+    new_user = User(account_id=account_id, name=name, email=email, address=address, phone_number=phone_number)
+    db.add_user(new_user=new_user)
+
+
+def edit_user():
+    og_account_id = input("Enter OG Account ID: ")
+    sub_choice = print_edit_user_menu()
+    new_user = User()
+
+    while sub_choice != "6" and sub_choice < "7":
+        sub_choice = print_edit_user_menu()
+        new_user = handle_user_menu_choice(sub_choice, new_user)
+
+    if sub_choice == "6":
+        db.edit_user(original_account_id=og_account_id, new_user=new_user)
