@@ -1,30 +1,30 @@
-from helper_functions import *
+import helper_functions as helper
 
 def main():
-    choice = print_main_menu()
-    exit_choice = str(len(MAIN_MENU_OPTIONS))
+    choice = helper.print_main_menu()
+    exit_choice = str(len(helper.MAIN_MENU_OPTIONS))
 
     while choice != exit_choice:
         if choice == "1": # Checkout
-            checkout_book()
+            helper.checkout_book()
 
         elif choice == "2": # Return
-            return_book()
+            helper.return_book()
 
         elif choice == "3": # Grant Extension
-            grant_extension()
+            helper.grant_extension()
 
         elif choice == "4":  # Search Table
-            search_tables()
+            helper.search_tables()
 
         elif choice == "5":  # Add a book
-            add_book()
+            helper.add_book()
 
         elif choice == "6":  # Add a User
-            add_user()
+            helper.add_user()
 
         elif choice == "7":  # Edit a User
-            edit_user()
+            helper.edit_user()
 
         elif choice == exit_choice:
             break
@@ -32,11 +32,10 @@ def main():
         else:
             print("Choice unrecognised")
 
-        db.save_changes()
         print()
-        choice = print_main_menu()
+        choice = helper.print_main_menu()
 
-    db.save_changes()
+    helper.save_changes()
     print("Successfully saved changes")
     print("Goodbye!")
 

@@ -528,3 +528,7 @@ def edit_user():
 
     if sub_choice == "6":
         db.edit_user(original_account_id=og_account_id, new_user=new_user)
+
+
+def save_changes():
+    db.save_changes()
