@@ -160,7 +160,63 @@ def handle_user_menu_choice(choice, new_user=User()):
 
     return new_user
 
-   
+def waitlist_user(isbn=None, account_id=None):
+    waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
+    if waitlist:
+        waitlist_successful = db.waitlist_user(isbn=isbn, account_id=account_id)
+        print("Successfully waitlisted") if waitlist_successful else print("Failed to waitlist")
+
+def checkout_book():
+    isbn = input("Enter ISBN: ")
+    account_id = input("Enter Account ID: ")
+
+    num_available = db.number_in_stock(isbn=isbn)
+
+    if num_available == 0:  # Waitlist
+        print("This book is not available right now.")
+        waitlist_user(isbn=isbn, account_id=account_id)
+
+    elif num_available == -1:
+        print("This library branch does not carry this book.")
+
+    else:
+        user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
+        people_in_line = db.line_length(isbn=isbn)
+        today = datetime.today().strftime("%Y-%m-%d")
+        due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
+
+        if user_place_in_line == 1 or people_in_line == 0:
+            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id, checkout_date=today, due_date=due_date)
+            db.update_waitlist(isbn=isbn)
+            print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
+
+        else:
+            print("User is not next in line to checkout book.")
+
+            if people_in_line > 1:
+                waitlist_user(isbn=isbn, account_id=account_id)
+
+
+def return_book():
+    isbn = input("Enter ISBN: ")
+    account_id = input("Enter Account ID: ")
+    today = datetime.today().strftime("%Y-%m-%d")
+
+    return_successful = db.return_book(isbn=isbn, account_id=account_id, return_date=today)
+    print("Successfully returned") if return_successful else print("Failed to returned")
+
+
+def grant_extension():
+    isbn = input("Enter ISBN: ")
+    account_id = input("Enter Account ID: ")
+    loan_filter = Loan()
+    loan_filter.isbn = isbn
+    loan_filter.account_id = account_id
+    old_due_date = db.get_filtered_loans(filter_attributes=loan_filter)[0].due_date
+    new_date = (datetime.fromisoformat(old_due_date) + timedelta(weeks=2)).strftime("%Y-%m-%d")
+    db.grant_extension(isbn=isbn, account_id=account_id, new_due_date=new_date)
+
+
 def search_books():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_book = Book()
@@ -433,62 +489,6 @@ def search_tables():
         return
     else:
         print("Invalid choice")
-
-
-def waitlist_user(isbn=None, account_id=None):
-    waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
-    if waitlist:
-        waitlist_successful = db.waitlist_user(isbn=isbn, account_id=account_id)
-        print("Successfully waitlisted") if waitlist_successful else print("Failed to waitlist")
-
-def checkout_book():
-    isbn = input("Enter ISBN: ")
-    account_id = input("Enter Account ID: ")
-
-    num_available = db.number_in_stock(isbn=isbn)
-
-    if num_available == 0:  # Waitlist
-        print("This book is not available right now.")
-        waitlist_user(isbn=isbn, account_id=account_id)
-
-    elif num_available == -1:
-        print("This library branch does not carry this book.")
-
-    else:
-        user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
-        people_in_line = db.line_length(isbn=isbn)
-        today = datetime.today().strftime("%Y-%m-%d")
-        due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
-
-        if user_place_in_line == 1 or people_in_line == 0:
-            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id, checkout_date=today, due_date=due_date)
-            db.update_waitlist(isbn=isbn)
-            print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
-
-        else:
-            print("User is not next in line to checkout book.")
-
-            if people_in_line > 1:
-                waitlist_user(isbn=isbn, account_id=account_id)
-
-def return_book():
-    isbn = input("Enter ISBN: ")
-    account_id = input("Enter Account ID: ")
-    today = datetime.today().strftime("%Y-%m-%d")
-
-    return_successful = db.return_book(isbn=isbn, account_id=account_id, return_date=today)
-    print("Successfully returned") if return_successful else print("Failed to returned")
-
-
-def grant_extension():
-    isbn = input("Enter ISBN: ")
-    account_id = input("Enter Account ID: ")
-    loan_filter = Loan()
-    loan_filter.isbn = isbn
-    loan_filter.account_id = account_id
-    old_due_date = db.get_filtered_loans(filter_attributes=loan_filter)[0].due_date
-    new_date = (datetime.fromisoformat(old_due_date) + timedelta(weeks=2)).strftime("%Y-%m-%d")
-    db.grant_extension(isbn=isbn, account_id=account_id, new_due_date=new_date)
 
 
 def add_book():
