@@ -1,6 +1,9 @@
 from mysql.connector import connect
-from Book import Book
-from User import User
+from models.LoanHistory import LoanHistory
+from models.Waitlist import Waitlist
+from models.Book import Book
+from models.User import User
+from models.Loan import Loan
 
 DB_CONFIG = {
     "user": "username",
@@ -53,6 +56,90 @@ returns a list of User objects with users who meet the qualifications of the fil
 """
 def get_filtered_users(filter_attributes: User = None,
                        use_patterns: bool = False) -> list[User]:
+    return []
+
+
+"""
+filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None 
+    then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned 
+    should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when 
+    filtering.
+use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical 
+    string literals, so the search should handle this accordingly. e.g. if filter_attributes.name = "John%" and 
+    use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False then
+    all users returned should have their name == "John%".
+min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if min_checkout_date = "2025-01-02",
+    then all loans should be checked out after "2025-01-01", not including "2025-01-01".
+max_checkout_date - The maximum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if max_checkout_date = "2025-01-02",
+    then all loans should be checked out before "2025-01-03", not including "2025-01-03"
+min_due_date - like min_checkout_date but with the due date instead
+max_due_date - like max_checkout_date but with the due date instead
+
+returns a list of Loan objects with loans that meet the qualifications of the filtered attributes. If no loans meet the 
+    requirements, then an empty list is returned
+"""
+def get_filtered_loans(filter_attributes: Loan = None,
+                       use_patterns: bool = False,
+                       min_checkout_date: str = None,
+                       max_checkout_date: str = None,
+                       min_due_date: str = None,
+                       max_due_date: str = None,) -> list[Loan]:
+    return []
+
+
+"""
+filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None 
+    then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned 
+    should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when 
+    filtering.
+use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical 
+    string literals, so the search should handle this accordingly. e.g. if filter_attributes.name = "John%" and 
+    use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False then
+    all users returned should have their name == "John%".
+min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if min_checkout_date = "2025-01-02",
+    then all loans should be checked out after "2025-01-01", not including "2025-01-01".
+max_checkout_date - The maximum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if max_checkout_date = "2025-01-02",
+    then all loans should be checked out before "2025-01-03", not including "2025-01-03"
+min_due_date - like min_checkout_date but with the due date instead
+max_due_date - like max_checkout_date but with the due date instead
+min_return_date - like min_checkout_date but with the return date instead
+max_return_date - like max_checkout_date but with the return date instead
+
+returns a list of LoanHistory objects with Loan History entries that meet the qualifications of the filtered attributes.
+    If no entries meet the requirements, then an empty list is returned
+"""
+def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
+                                use_patterns: bool = False,
+                                min_checkout_date: str = None,
+                                max_checkout_date: str = None,
+                                min_due_date: str = None,
+                                max_due_date: str = None,
+                                min_return_date: str = None,
+                                max_return_date: str = None) -> list[LoanHistory]:
+    return []
+
+
+"""
+filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None 
+    then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned 
+    should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when 
+    filtering.
+use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical 
+    string literals, so the search should handle this accordingly. e.g. if filter_attributes.name = "John%" and 
+    use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False then
+    all users returned should have their name == "John%".
+min_place_in_line - The minimum place in line for a waitlist to be. e.g. if min_place_in_line = 3 then only entries 
+    where the place_in_line is greater than or equal to 3 should be included.
+max_place_in_line - The minimum place in line for a waitlist to be. e.g. if max_place_in_line = 3 then only entries 
+    where the place_in_line is less than or equal to 3 should be included.
+    
+returns a list of Waitlist objects with waitlist entries that meet the qualifications of the filtered attributes. 
+    If no entries meet the requirements, then an empty list is returned
+"""
+def get_filtered_waitlist(filter_attributes: Waitlist = None,
+                          use_patterns: bool = False,
+                          min_place_in_line: int = -1,
+                          max_place_in_line: int = -1) -> list[Waitlist]:
     return []
 
 """
@@ -194,3 +281,16 @@ returns how many people are on the waitlist for the book with the corresponding 
 """
 def line_length(isbn: str = None)-> int:
     return 0
+
+"""
+isbn - A string containing the ISBN for a book
+account_id - A string containing the account id for a user
+new_due_date - The date that the book is now due, formatted in YYYY-mm-dd
+
+returns a bool showing whether the user was granted an extension or not
+
+"""
+def grant_extension(isbn: str = None,
+                    account_id: str = None,
+                    new_due_date: str = None) -> bool:
+    return True

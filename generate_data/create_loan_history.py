@@ -1,7 +1,7 @@
 from mysql.connector import connect
 from datetime import date, timedelta
 from random import randint
-from Book import Book
+from models.Book import Book
 from math import floor
 
 def daterange(_start_date: date, _end_date: date):

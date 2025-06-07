@@ -1,7 +1,7 @@
 from mysql.connector import connect
 from datetime import date, timedelta
 from random import randint
-from Book import Book
+from models.Book import Book
 from math import floor
 
 def daterange(_start_date: date, _end_date: date):
@@ -51,7 +51,7 @@ with open("../data/loan.sql", "w") as file:
     file.write("account_id VARCHAR(16),")
     file.write("checkout_date DATE, ")
     file.write("due_date DATE NOT NULL,")
-    file.write("PRIMARY KEY (isbn, account_id, checkout_date));\n")
+    file.write("PRIMARY KEY (isbn, account_id));\n")
 
     for single_date in daterange(start_date, end_date):
         number_of_checkouts = randint(-12, 10)

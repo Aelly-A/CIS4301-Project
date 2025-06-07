@@ -185,8 +185,6 @@ used_ids = ['']
 delimiters = [".", "", "-"]
 emails = ["gmail.com", "yahoo.com", "icloud.com", "outlook.com", "ufl.edu", "aol.com"]
 
-from User import User
-
 with open("../data/user.sql", "w") as file:
     file.write("DROP TABLE IF EXISTS User;\n")
     file.write("CREATE TABLE User (")

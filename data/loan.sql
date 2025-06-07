@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS Loan;
-CREATE TABLE Loan(isbn VARCHAR(16),account_id VARCHAR(16),checkout_date DATE, due_date DATE NOT NULL,PRIMARY KEY (isbn, account_id, checkout_date));
+CREATE TABLE Loan(isbn VARCHAR(16),account_id VARCHAR(16),checkout_date DATE, due_date DATE NOT NULL,PRIMARY KEY (isbn, account_id));
 INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("9812462503", "f519fac9c34a", "2025-03-20", "2025-04-03");
 INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0023417706", "6bd7bf195b56", "2025-03-20", "2025-04-17");
 INSERT INTO Loan (isbn, account_id, checkout_date, due_date) VALUES ("0671255142", "0f1ea1817d8d", "2025-03-20", "2025-04-17");

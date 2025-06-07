@@ -11,11 +11,11 @@ def main():
         elif choice == "2": # Return
             return_book()
 
-        elif choice == "3": # Search Book
-            search_books()
+        elif choice == "3": # Grant Extension
+            grant_extension()
 
-        elif choice == "4":  # Search User
-            search_users()
+        elif choice == "4":  # Search Table
+            search_tables()
 
         elif choice == "5":  # Add a book
             add_book()
@@ -32,6 +32,7 @@ def main():
         else:
             print("Choice unrecognised")
 
+        db.save_changes()
         print()
         choice = print_main_menu()
 

@@ -2,16 +2,31 @@ from datetime import datetime, timedelta
 import db_handler as db
 from Book import Book
 from User import User
+from models.LoanHistory import LoanHistory
+from models.Waitlist import Waitlist
+from models.Book import Book
+from models.User import User
+from models.Loan import Loan
+
 
 MAIN_MENU_OPTIONS = [
     "Checkout a Book",
     "Return a Book",
-    "Search for a Book",
-    "Search for a User",
+    "Grant an Extension",
+    "Search a Table",
     "Add a Book",
     "Add a User",
     "Edit a User",
     "Exit"
+]
+
+TABLE_OPTIONS = [
+    "Book",
+    "User",
+    "Waitlist",
+    "Loan",
+    "LoanHistory",
+    "Cancel"
 ]
 
 BOOK_OPTIONS = [
@@ -19,8 +34,8 @@ BOOK_OPTIONS = [
     "Title",
     "Author",
     "Publisher",
-    "Minimum Publication Year",
-    "Maximum Publication Year",
+    "Min Publication Year",
+    "Max Publication Year",
     "Continue",
     "Cancel"
 ]
@@ -38,23 +53,41 @@ USER_OPTIONS = [
 LOAN_OPTIONS = [
     "ISBN",
     "Account ID",
-    "Checkout Date",
-    "Due Date",
+    "Min Checkout Date",
+    "Max Checkout Date",
+    "Min Due Date",
+    "Max Due Date",
+    "Continue",
+    "Cancel"
 ]
 
 WAITLIST_OPTIONS = [
     "ISBN",
     "Account ID",
-    "Place in line"
+    "Place in line",
+    "Continue",
+    "Cancel"
 ]
 
 LOAN_HISTORY_OPTIONS = [
     "ISBN",
     "Account ID",
-    "Checkout Date",
-    "Due Date",
-    "Return Date",
+    "Min Checkout Date",
+    "Max Checkout Date",
+    "Min Due Date",
+    "Max Due Date",
+    "Min Return Date",
+    "Max Return Date",
+    "Continue",
+    "Cancel"
 ]
+
+def print_list_of_objects(objects: list) -> None:
+    for o in objects:
+        print("-" * 20)
+        print(o)
+        print("-" * 20)
+        
 
 def print_menu(menu_header, options):
     print(menu_header)
@@ -71,15 +104,28 @@ def print_main_menu():
     menu_header = "What would you like to do?"
     return print_menu(menu_header, MAIN_MENU_OPTIONS)
 
+def print_filter_menu(options):
+    return print_menu("Which attribute would you like to filter?", options)
+
 
 def print_filter_book_menu():
-    menu_header = "Which attribute would you like to filter?"
-    return print_menu(menu_header, BOOK_OPTIONS)
+    return print_filter_menu(BOOK_OPTIONS)
 
 
 def print_filter_user_menu():
-    menu_header = "Which attribute would you like to filter?"
-    return print_menu(menu_header, USER_OPTIONS)
+    return print_filter_menu(USER_OPTIONS)
+
+
+def print_filter_waitlist_menu():
+    return print_filter_menu(WAITLIST_OPTIONS)
+
+
+def print_filter_loan_menu():
+    return print_filter_menu(LOAN_OPTIONS)
+
+
+def print_filter_loan_history_menu():
+    return print_filter_menu(LOAN_HISTORY_OPTIONS)
 
 
 def print_edit_user_menu():
@@ -103,70 +149,61 @@ def handle_user_menu_choice(choice, new_user=User()):
     elif choice == "5":
         new_email = input("Email: ")
         new_user.email = new_email
-    elif choice == "6" or choice == "7":
-        return new_user
-    else:
+    elif choice not in ["6", "7"]:
         print("Invalid choice")
 
-    print()
     print("Current Attributes:")
-    print(new_user.filtered_str())
+    print("--------------------")
+    print(new_user, end="")
+    print("--------------------")
     print()
 
     return new_user
 
-
-def handle_book_menu_choice(choice, new_book=Book()):
-    if choice == "1":
-        new_isbn = input("ISBN: ")
-        new_book.isbn = new_isbn
-    elif choice == "2":
-        new_title = input("Title: ")
-        new_book.title = new_title
-    elif choice == "3":
-        new_author = input("Author: ")
-        new_book.author = new_author
-    elif choice == "4":
-        new_publisher = input("Publisher: ")
-        new_book.publisher = new_publisher
-    elif choice in ["5", "6", "7", "8"]:
-        return new_book
-    else:
-        print("Invalid choice")
-
-    return new_book
-
-
+   
 def search_books():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_book = Book()
-    sub_choice = "1"
+    choice = "1"
     min_pub_year = -1
     max_pub_year = -1
 
-    while sub_choice != "7" and sub_choice != "8":
-        sub_choice = print_filter_book_menu()
-        new_book = handle_book_menu_choice(sub_choice, new_book)
-
+    while choice != "7" and choice != "8":
+        choice = print_filter_book_menu()
         try:
-            if sub_choice == "5":
-                min_pub_year = int(input("Minimum Publication Year: "))
-            elif sub_choice == "6":
-                max_pub_year = int(input("Maximum Publication Year: "))
+            if choice == "1":
+                new_isbn = input("ISBN: ")
+                new_book.isbn = new_isbn
+            elif choice == "2":
+                new_title = input("Title: ")
+                new_book.title = new_title
+            elif choice == "3":
+                new_author = input("Author: ")
+                new_book.author = new_author
+            elif choice == "4":
+                new_publisher = input("Publisher: ")
+                new_book.publisher = new_publisher
+            elif choice == "5":
+                min_pub_year = int(input("Min Publication Year: "))
+            elif choice == "6":
+                max_pub_year = int(input("Max Publication Year: "))
+            elif choice not in ["7", "8"]:
+                print("Unrecognized choice")
         except ValueError:
             print("Please enter a valid integer value")
             print()
 
         print("Current Attributes:")
         print("--------------------")
-        print(new_book.filtered_str(), end="")
+        print(new_book, end="")
         if min_pub_year != -1:
             print(f"Min Publication Year: {min_pub_year}")
         if max_pub_year != -1:
             print(f"Max Publication Year: {max_pub_year}")
         print("--------------------")
+        print()
 
-    if sub_choice == "8":
+    if choice == "8":
         return
 
     books = db.get_filtered_books(filter_attributes=new_book, use_patterns=use_patterns,
@@ -175,7 +212,228 @@ def search_books():
         print("No books found")
     else:
         print("Found " + str(len(books)) + " book(s):")
-        [print(book) for book in books]
+        print_list_of_objects(books)
+        
+        
+def search_users():
+    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
+    new_user = User()
+    sub_choice = "1"
+
+    while sub_choice != "6" and sub_choice < "7":
+        sub_choice = print_filter_user_menu()
+        new_user = handle_user_menu_choice(sub_choice, new_user)
+
+    if sub_choice == "6":
+        found_users = db.get_filtered_users(filter_attributes=new_user, use_patterns=use_patterns)
+
+        if found_users:
+            print_list_of_objects(found_users)
+        else:
+            print("No users found")
+
+
+def search_waitlist():
+    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
+    new_waitlist = Waitlist()
+    choice = "1"
+    min_place_in_line = -1
+    max_place_in_line = -1
+
+    while choice != "5" and choice != "6":
+        choice = print_filter_waitlist_menu()
+        try:
+            if choice == "1":
+                new_isbn = input("ISBN: ")
+                new_waitlist.isbn = new_isbn
+            elif choice == "2":
+                new_account_id = input("Account ID: ")
+                new_waitlist.account_id = new_account_id
+            elif choice == "3":
+                min_place_in_line = int(input("Min Publication Year: "))
+            elif choice == "4":
+                max_place_in_line = int(input("Max Publication Year: "))
+            elif choice not in ["5", "6"]:
+                print("Unrecognized choice")
+
+        except ValueError:
+            print("Please enter a valid integer value")
+            print()
+
+        print("Current Attributes:")
+        print("--------------------")
+        print(new_waitlist, end="")
+        if min_place_in_line != -1:
+            print(f"Min Place in Line: {min_place_in_line}")
+        if max_place_in_line != -1:
+            print(f"Max Place in Line: {max_place_in_line}")
+        print("--------------------")
+        print()
+
+    if choice == "8":
+        return
+
+    waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, use_patterns=use_patterns,
+                                  min_place_in_line=min_place_in_line, max_place_in_line=max_place_in_line)
+    if len(waitlist_entries) == 0:
+        print("No books found")
+    else:
+        print("Found " + str(len(waitlist_entries)) + " book(s):")
+        print_list_of_objects(waitlist_entries)
+        
+
+def search_loan():
+    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
+    new_loan = Loan()
+    choice = "1"
+    min_checkout_date = ""
+    max_checkout_date = ""
+    min_due_date = ""
+    max_due_date = ""
+
+    while choice != "7" and choice != "8":
+        choice = print_filter_loan_menu()
+
+        try:
+            if choice == "1":
+                new_isbn = input("ISBN: ")
+                new_loan.isbn = new_isbn
+            elif choice == "2":
+                new_account_id = input("Account ID: ")
+                new_loan.title = new_account_id
+            elif choice == "3":
+                min_checkout_date = input("Min Checkout Date: ")
+            elif choice == "4":
+                max_checkout_date = input("Max Checkout Date: ")
+            elif choice == "5":
+                min_due_date = input("Max Due Date: ")
+            elif choice == "6":
+                max_due_date = input("Max Due Date: ")
+            elif choice not in ["7", "8"]:
+                print("Unrecognized choice")
+
+        except ValueError:
+            print("Please enter a valid integer value")
+            print()
+
+        print("Current Attributes:")
+        print("--------------------")
+        print(new_loan, end="")
+        if min_checkout_date:
+            print(f"Min Checkout Date: {min_checkout_date}")
+        if max_checkout_date:
+            print(f"Max Checkout Date: {max_checkout_date}")
+        if min_due_date:
+            print(f"Min Due Date: {min_due_date}")
+        if max_due_date:
+            print(f"Max Due Date: {max_due_date}")
+        print("--------------------")
+        print()
+
+
+    if choice == "8":
+        return
+
+    loans = db.get_filtered_loans(filter_attributes=new_loan, use_patterns=use_patterns,
+                                             min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
+                                             min_due_date=min_due_date, max_due_date=max_due_date)
+    if len(loans) == 0:
+        print("No loans found")
+    else:
+        print("Found " + str(len(loans)) + " book(s):")
+        print_list_of_objects(loans)
+
+def search_loan_history():
+    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
+    new_loan_history = LoanHistory()
+    choice = "1"
+    min_checkout_date = ""
+    max_checkout_date = ""
+    min_due_date = ""
+    max_due_date = ""
+    min_return_date = ""
+    max_return_date = ""
+
+    while choice != "9" and choice != "10":
+        choice = print_filter_loan_history_menu()
+
+        try:
+            if choice == "1":
+                new_isbn = input("ISBN: ")
+                new_loan_history.isbn = new_isbn
+            elif choice == "2":
+                new_account_id = input("Account ID: ")
+                new_loan_history.account_id = new_account_id
+            elif choice == "3":
+                min_checkout_date = input("Min Checkout Date: ")
+            elif choice == "4":
+                max_checkout_date = input("Max Checkout Date: ")
+            elif choice == "5":
+                min_due_date = input("Max Due Date: ")
+            elif choice == "6":
+                max_due_date = input("Max Due Date: ")
+            elif choice == "7":
+                min_return_date = input("Max Return Date: ")
+            elif choice == "8":
+                max_return_date = input("Max Return Date: ")
+            elif choice not in ["9", "10"]:
+                print("Unrecognized choice")
+
+        except ValueError:
+            print("Please enter a valid integer value")
+            print()
+
+        print("Current Attributes:")
+        print("--------------------")
+        print(new_loan_history, end="")
+        if min_checkout_date:
+            print(f"Min Checkout Date: {min_checkout_date}")
+        if max_checkout_date:
+            print(f"Max Checkout Date: {max_checkout_date}")
+        if min_due_date:
+            print(f"Min Due Date: {min_due_date}")
+        if max_due_date:
+            print(f"Max Due Date: {max_due_date}")
+        if min_return_date:
+            print(f"Min Return Date: {min_return_date}")
+        if max_return_date:
+            print(f"Max Return Date: {max_return_date}")
+        print("--------------------")
+        print()
+
+
+    if choice == "8":
+        return
+
+    loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
+                                           min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
+                                           min_due_date=min_due_date, max_due_date=max_due_date,
+                                           min_return_date=min_return_date, max_return_date=max_return_date)
+    if len(loans) == 0:
+        print("No loans found")
+    else:
+        print("Found " + str(len(loans)) + " book(s):")
+        print_list_of_objects(loans)
+
+
+def search_tables():
+    choice = print_menu("Which table would you like to search?", TABLE_OPTIONS)
+
+    if choice == "1":
+        search_books()
+    elif choice == "2":
+        search_users()
+    elif choice == "3":
+        search_waitlist()
+    elif choice == "4":
+        search_loan()
+    elif choice == "5":
+        search_loan_history()
+    elif choice == "6":
+        return
+    else:
+        print("Invalid choice")
+
 
 def waitlist_user(isbn=None, account_id=None):
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
@@ -221,23 +479,17 @@ def return_book():
     return_successful = db.return_book(isbn=isbn, account_id=account_id, return_date=today)
     print("Successfully returned") if return_successful else print("Failed to returned")
 
-def search_users():
-    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
-    new_user = User()
-    sub_choice = "1"
 
-    while sub_choice != "6" and sub_choice < "7":
-        sub_choice = print_filter_user_menu()
-        new_user = handle_user_menu_choice(sub_choice, new_user)
+def grant_extension():
+    isbn = input("Enter ISBN: ")
+    account_id = input("Enter Account ID: ")
+    loan_filter = Loan()
+    loan_filter.isbn = isbn
+    loan_filter.account_id = account_id
+    old_due_date = db.get_filtered_loans(filter_attributes=loan_filter)[0].due_date
+    new_date = (datetime.fromisoformat(old_due_date) + timedelta(weeks=2)).strftime("%Y-%m-%d")
+    db.grant_extension(isbn=isbn, account_id=account_id, new_due_date=new_date)
 
-    if sub_choice == "6":
-        found_users = db.get_filtered_users(filter_attributes=new_user, use_patterns=use_patterns)
-
-        if found_users:
-            for found_user in found_users:
-                print(found_user)
-        else:
-            print("No users found")
 
 def add_book():
     isbn = input("Enter ISBN: ")
