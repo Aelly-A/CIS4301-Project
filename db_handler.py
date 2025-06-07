@@ -12,8 +12,9 @@ DB_CONFIG = {
     "database": "library",
 }
 
+# If you get an error like 'Unknown collation', use the collation argument below
 conn = connect(user=DB_CONFIG["user"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
-               database=DB_CONFIG["database"], collation='utf8mb4_unicode_ci')
+               database=DB_CONFIG["database"], port=3306) #, collation='utf8mb4_unicode_ci')
 
 cur = conn.cursor()
 

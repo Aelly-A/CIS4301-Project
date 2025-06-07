@@ -1,11 +1,14 @@
 from mysql.connector import connect
 
-
 def load_db(_username=None, _password=None, _port=None):
-    conn = connect(user=_username, password=_password, host="localhost", database="library",
-                   collation='utf8mb4_unicode_ci', port=_port)
+    # If you get an error like 'Unknown collation', use the collation argument below
+    conn = connect(user=_username, password=_password, host="localhost", port=_port) # , collation='utf8mb4_unicode_ci')
 
     cur = conn.cursor()
+
+    cur.execute('DROP DATABASE IF EXISTS library')
+    cur.execute('CREATE DATABASE library')
+    cur.execute('USE library')
 
     for line in open("data/book.sql", "r"):
         cur.execute(line)
