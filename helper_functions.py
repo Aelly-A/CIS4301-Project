@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta
 import db_handler as db
-from Book import Book
-from User import User
 from models.LoanHistory import LoanHistory
 from models.Waitlist import Waitlist
 from models.Book import Book
