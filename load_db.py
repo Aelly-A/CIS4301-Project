@@ -6,6 +6,8 @@ def load_db(_username=None, _password=None, _port=None):
 
     cur = conn.cursor()
 
+    print("Connected to database, inserting data...")
+
     cur.execute('DROP DATABASE IF EXISTS library')
     cur.execute('CREATE DATABASE library')
     cur.execute('USE library')
@@ -13,17 +15,27 @@ def load_db(_username=None, _password=None, _port=None):
     for line in open("data/book.sql", "r"):
         cur.execute(line)
 
+    print("Inserted Books")
+
     for line in open("data/user.sql", "r"):
         cur.execute(line)
 
-    for line in open("data/loanhistory.sql", "r"):
+    print("Inserted Users")
+
+    for line in open("data/loan_history.sql", "r"):
         cur.execute(line)
+
+    print("Inserted Loan Histories")
 
     for line in open("data/loan.sql", "r"):
         cur.execute(line)
 
+    print("Inserted Loans")
+
     for line in open("data/waitlist.sql", "r"):
         cur.execute(line)
+
+    print("Inserted Waitlists")
 
     conn.commit()
     conn.close()

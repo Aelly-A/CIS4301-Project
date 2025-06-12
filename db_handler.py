@@ -106,7 +106,7 @@ max_due_date - like max_checkout_date but with the due date instead
 min_return_date - like min_checkout_date but with the return date instead
 max_return_date - like max_checkout_date but with the return date instead
 
-returns a list of LoanHistory objects with Loan History entries that meet the qualifications of the filtered attributes.
+returns a list of LoanHistory objects that meet the qualifications of the filtered attributes.
     If no entries meet the requirements, then an empty list is returned
 """
 def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
@@ -256,7 +256,7 @@ return_date - A string containing the date the book was returned, formatted in Y
     
 returns bool which is True if the user is successfully able to return the book, and False otherwise. When returning a 
     book, all that is needed is to delete the corresponding entry from the Loan table, and insert a new record into the
-    Loan_history.
+    LoanHistory table.
 """
 def return_book(isbn: str = None,
                 account_id: str = None,

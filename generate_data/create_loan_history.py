@@ -44,7 +44,7 @@ end_date = date(2025, 3, 25)
 
 TWO_WEEKS = timedelta(weeks=2)
 
-with open("../data/loanhistory.sql", "w") as file:
+with open("../data/loan_history.sql", "w") as file:
     file.write("DROP TABLE IF EXISTS LoanHistory;\n")
     file.write("CREATE TABLE LoanHistory(")
     file.write("isbn VARCHAR(16),")

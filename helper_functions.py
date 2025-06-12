@@ -23,7 +23,7 @@ TABLE_OPTIONS = [
     "User",
     "Waitlist",
     "Loan",
-    "LoanHistory",
+    "Loan History",
     "Cancel"
 ]
 
@@ -80,11 +80,16 @@ LOAN_HISTORY_OPTIONS = [
     "Cancel"
 ]
 
-def print_list_of_objects(objects: list) -> None:
-    for o in objects:
-        print("-" * 20)
-        print(o)
-        print("-" * 20)
+def print_list_of_objects(objects: list, object_name: str) -> None:
+    if len(objects) == 0:
+        print("No books found")
+    else:
+
+        print(f"Found {str(len(objects))}  {object_name}{'s' if len(objects) > 1 else ''}")
+        for o in objects:
+            print("-" * 20)
+            print(str(o)[:-1])
+            print("-" * 20)
         
 
 def print_menu(menu_header, options):
@@ -247,6 +252,7 @@ def search_books():
             print("Please enter a valid integer value")
             print()
 
+        print()
         print("Current Attributes:")
         print("--------------------")
         print(new_book, end="")
@@ -262,11 +268,7 @@ def search_books():
 
     books = db.get_filtered_books(filter_attributes=new_book, use_patterns=use_patterns,
                                   min_publication_year=min_pub_year, max_publication_year=max_pub_year)
-    if len(books) == 0:
-        print("No books found")
-    else:
-        print("Found " + str(len(books)) + " book(s):")
-        print_list_of_objects(books)
+    print_list_of_objects(books, "book")
         
         
 def search_users():
@@ -281,10 +283,8 @@ def search_users():
     if sub_choice == "6":
         found_users = db.get_filtered_users(filter_attributes=new_user, use_patterns=use_patterns)
 
-        if found_users:
-            print_list_of_objects(found_users)
-        else:
-            print("No users found")
+        print_list_of_objects(found_users, "user")
+
 
 
 def search_waitlist():
@@ -314,6 +314,7 @@ def search_waitlist():
             print("Please enter a valid integer value")
             print()
 
+        print()
         print("Current Attributes:")
         print("--------------------")
         print(new_waitlist, end="")
@@ -329,11 +330,7 @@ def search_waitlist():
 
     waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, use_patterns=use_patterns,
                                   min_place_in_line=min_place_in_line, max_place_in_line=max_place_in_line)
-    if len(waitlist_entries) == 0:
-        print("No books found")
-    else:
-        print("Found " + str(len(waitlist_entries)) + " book(s):")
-        print_list_of_objects(waitlist_entries)
+    print_list_of_objects(waitlist_entries, "waitlisted user")
         
 
 def search_loan():
@@ -354,7 +351,7 @@ def search_loan():
                 new_loan.isbn = new_isbn
             elif choice == "2":
                 new_account_id = input("Account ID: ")
-                new_loan.title = new_account_id
+                new_loan.account_id = new_account_id
             elif choice == "3":
                 min_checkout_date = input("Min Checkout Date: ")
             elif choice == "4":
@@ -370,6 +367,7 @@ def search_loan():
             print("Please enter a valid integer value")
             print()
 
+        print()
         print("Current Attributes:")
         print("--------------------")
         print(new_loan, end="")
@@ -391,11 +389,7 @@ def search_loan():
     loans = db.get_filtered_loans(filter_attributes=new_loan, use_patterns=use_patterns,
                                              min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
                                              min_due_date=min_due_date, max_due_date=max_due_date)
-    if len(loans) == 0:
-        print("No loans found")
-    else:
-        print("Found " + str(len(loans)) + " book(s):")
-        print_list_of_objects(loans)
+    print_list_of_objects(loans, "loan")
 
 def search_loan_history():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
@@ -437,6 +431,7 @@ def search_loan_history():
             print("Please enter a valid integer value")
             print()
 
+        print()
         print("Current Attributes:")
         print("--------------------")
         print(new_loan_history, end="")
@@ -459,15 +454,11 @@ def search_loan_history():
     if choice == "8":
         return
 
-    loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
-                                           min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
-                                           min_due_date=min_due_date, max_due_date=max_due_date,
-                                           min_return_date=min_return_date, max_return_date=max_return_date)
-    if len(loans) == 0:
-        print("No loans found")
-    else:
-        print("Found " + str(len(loans)) + " book(s):")
-        print_list_of_objects(loans)
+    loans = db.get_filtered_returns(filter_attributes=new_return, use_patterns=use_patterns,
+                                    min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
+                                    min_due_date=min_due_date, max_due_date=max_due_date,
+                                    min_return_date=min_return_date, max_return_date=max_return_date)
+    print_list_of_objects(loans, "return")
 
 
 def search_tables():
