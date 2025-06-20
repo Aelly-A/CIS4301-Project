@@ -2,4 +2,5 @@
 .DS_Store
 notes.txt
 generate_data/Books.csv
+generate_data
 DONTPUSHDBHANDLER.py
