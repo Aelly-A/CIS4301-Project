@@ -27,7 +27,7 @@ TABLE_OPTIONS = [
     "Cancel"
 ]
 
-BOOK_OPTIONS = [
+BOOK_OPTIONS = [ # These are used to filter attributes when searching through tables
     "ISBN",
     "Title",
     "Author",
@@ -83,9 +83,10 @@ LOAN_HISTORY_OPTIONS = [
 def print_list_of_objects(objects: list, object_name: str) -> None:
     if len(objects) == 0:
         print("No books found")
-    else:
 
+    else:
         print(f"Found {str(len(objects))}  {object_name}{'s' if len(objects) > 1 else ''}")
+
         for o in objects:
             print("-" * 20)
             print(str(o)[:-1])
@@ -94,12 +95,14 @@ def print_list_of_objects(objects: list, object_name: str) -> None:
 
 def print_menu(menu_header, options):
     print(menu_header)
+
     for i, option in enumerate(options):
         print(f"{i + 1}. {option}")
 
     print()
     choice = input("Choice: ")
     print()
+
     return choice
 
 
@@ -111,7 +114,7 @@ def print_filter_menu(options):
     return print_menu("Which attribute would you like to filter?", options)
 
 
-def print_filter_book_menu():
+def print_filter_book_menu(): # Wrapper functions to simplify menu printing
     return print_filter_menu(BOOK_OPTIONS)
 
 
@@ -173,22 +176,22 @@ def checkout_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    num_available = db.number_in_stock(isbn=isbn)
+    num_in_stock = db.number_in_stock(isbn=isbn)
 
-    if num_available == 0:  # Waitlist
+    if num_in_stock == 0:  # Waitlist
         print("This book is not available right now.")
         waitlist_user(isbn=isbn, account_id=account_id)
 
-    elif num_available == -1:
+    elif num_in_stock == -1:
         print("This library branch does not carry this book.")
 
-    else:
+    else: # Check if user is able to check out the book
         user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
         people_in_line = db.line_length(isbn=isbn)
         today = datetime.today().strftime("%Y-%m-%d")
         due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
 
-        if user_place_in_line == 1 or people_in_line == 0:
+        if user_place_in_line == 1 or people_in_line == 0: # User is either next in line or there is no waitlist
             checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id, checkout_date=today, due_date=due_date)
             db.update_waitlist(isbn=isbn)
             print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
@@ -196,7 +199,7 @@ def checkout_book():
         else:
             print("User is not next in line to checkout book.")
 
-            if people_in_line > 1:
+            if people_in_line > 1 and user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
                 waitlist_user(isbn=isbn, account_id=account_id)
 
 
@@ -212,11 +215,11 @@ def return_book():
 def grant_extension():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
-    loan_filter = Loan()
-    loan_filter.isbn = isbn
-    loan_filter.account_id = account_id
+    loan_filter = Loan(isbn=isbn, account_id=account_id)
+
     old_due_date = db.get_filtered_loans(filter_attributes=loan_filter)[0].due_date
     new_date = (datetime.fromisoformat(old_due_date) + timedelta(weeks=2)).strftime("%Y-%m-%d")
+
     db.grant_extension(isbn=isbn, account_id=account_id, new_due_date=new_date)
 
 
@@ -454,7 +457,7 @@ def search_loan_history():
     if choice == "8":
         return
 
-    loans = db.get_filtered_returns(filter_attributes=new_return, use_patterns=use_patterns,
+    loans = db.get_filtered_returns(filter_attributes=new_loan_history, use_patterns=use_patterns,
                                     min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
                                     min_due_date=min_due_date, max_due_date=max_due_date,
                                     min_return_date=min_return_date, max_return_date=max_return_date)

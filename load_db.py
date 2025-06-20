@@ -1,44 +1,58 @@
-from mysql.connector import connect
+from mysql.connector import connect, ProgrammingError
 
 def load_db(_username=None, _password=None, _port=None):
     # If you get an error like 'Unknown collation', use the collation argument below
-    conn = connect(user=_username, password=_password, host="localhost", port=_port) # , collation='utf8mb4_unicode_ci')
+    try:
+        conn = connect(user=_username, password=_password, host="localhost", port=_port) # , collation='utf8mb4_unicode_ci')
 
-    cur = conn.cursor()
+        cur = conn.cursor()
 
-    print("Connected to database, inserting data...")
+        cur.execute('DROP DATABASE IF EXISTS library')
+        cur.execute('CREATE DATABASE library')
+        cur.execute('USE library')
 
-    cur.execute('DROP DATABASE IF EXISTS library')
-    cur.execute('CREATE DATABASE library')
-    cur.execute('USE library')
+        print("Connected to the DB")
 
-    for line in open("data/book.sql", "r"):
-        cur.execute(line)
+        for line in open("data/book.sql", "r"):
+            cur.execute(line)
 
-    print("Inserted Books")
+        print("Inserted Books")
 
-    for line in open("data/user.sql", "r"):
-        cur.execute(line)
+        for line in open("data/user.sql", "r"):
+            cur.execute(line)
 
-    print("Inserted Users")
+        print("Inserted Users")
 
-    for line in open("data/loan_history.sql", "r"):
-        cur.execute(line)
+        for line in open("data/loan_history.sql", "r"):
+            cur.execute(line)
 
-    print("Inserted Loan Histories")
+        print("Inserted Loan Histories")
 
-    for line in open("data/loan.sql", "r"):
-        cur.execute(line)
+        for line in open("data/loan.sql", "r"):
+            cur.execute(line)
 
-    print("Inserted Loans")
+        print("Inserted Loans")
 
-    for line in open("data/waitlist.sql", "r"):
-        cur.execute(line)
+        for line in open("data/waitlist.sql", "r"):
+            cur.execute(line)
 
-    print("Inserted Waitlists")
+        print("Inserted Waitlists")
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
+
+        return True
+
+    except ProgrammingError as e:
+        print()
+        print(f"Could not log into the database using")
+        print(f"\tUsername: {_username}")
+        print(f"\tPassword: {_password}")
+        print(f"\tPort: {_port}")
+        print()
+        print("Error:", e)
+
+        return False
 
 if __name__ == "__main__":
     username = input("Enter your SQL username: ")
@@ -48,4 +62,9 @@ if __name__ == "__main__":
     if port == "":
         port = "3306"
 
-    load_db(_username=username, _password=password, _port=port)
+    success = load_db(_username=username, _password=password, _port=port)
+    print()
+    if success:
+        print("Successfully loaded in the data")
+    else:
+        print("Failed to insert the data")
