@@ -1,9 +1,11 @@
 # CIS4301 Library Database Project
 
 ### Overview
-For this assignment
+For this assignment you are tasked with creating the backend for a Library DBMS. The frontend a CLI written in python 
+that is provided for you, so you only need to work on the functions in the db_handler.py file. We have provided the function definitions along with docstrings that discuss the parameters and return values. It is recommended that you
+work on the functions as the class progresses to keep a steady pace, and not leave everything for the night before it is due.
 
-### Background
+
 
 ### Functions
 
