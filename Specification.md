@@ -7,7 +7,7 @@ work on the functions as the class progresses to keep a steady pace, and not lea
 
 ### Data Models
 When getting data from a DB table, it is naturally returned as a 2d list. The indices of the columns within that list
-depend on the order of attribtues from the `SELECT` clause. To standardize passing data between the frontend and backend, 
+depend on the order of attributes from the `SELECT` clause. To standardize passing data between the frontend and backend, 
 we have provided Python objects that correspond to a row in each table, i.e. the Book object represents a book in the 
 Book table. Whenever the db_handler passes eligible data to the frontend, it is required to be stored in the corresponding object.
 Otherwise, the program will likely crash. It is recommended but not required to create helper functions in the db_handler 
