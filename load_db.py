@@ -64,6 +64,9 @@ if __name__ == "__main__":
     if port == "":
         port = "3306"
 
+    if data_dir == "":
+        data_dir = "data/"
+
     success = load_db(_username=username, _password=password, _port=port, _data_dir=data_dir)
     print()
     if success:
