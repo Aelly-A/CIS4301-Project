@@ -1,6 +1,6 @@
 from mysql.connector import connect, ProgrammingError
 
-def load_db(_username=None, _password=None, _port=None):
+def load_db(_username=None, _password=None, _port=None, _data_dir='data/'):
     # If you get an error like 'Unknown collation', use the collation argument below
     try:
         conn = connect(user=_username, password=_password, host="localhost", port=_port) # , collation='utf8mb4_unicode_ci')
@@ -11,29 +11,31 @@ def load_db(_username=None, _password=None, _port=None):
         cur.execute('CREATE DATABASE library')
         cur.execute('USE library')
 
+        print()
         print("Connected to the DB")
+        print("Inserting Data...")
 
-        for line in open("data/book.sql", "r"):
+        for line in open(_data_dir + "book.sql", "r"):
             cur.execute(line)
 
         print("Inserted Books")
 
-        for line in open("data/user.sql", "r"):
+        for line in open(_data_dir + "user.sql", "r"):
             cur.execute(line)
 
         print("Inserted Users")
 
-        for line in open("data/loan_history.sql", "r"):
+        for line in open(_data_dir + "loan_history.sql", "r"):
             cur.execute(line)
 
         print("Inserted Loan Histories")
 
-        for line in open("data/loan.sql", "r"):
+        for line in open(_data_dir + "loan.sql", "r"):
             cur.execute(line)
 
         print("Inserted Loans")
 
-        for line in open("data/waitlist.sql", "r"):
+        for line in open(_data_dir + "waitlist.sql", "r"):
             cur.execute(line)
 
         print("Inserted Waitlists")
@@ -58,11 +60,11 @@ if __name__ == "__main__":
     username = input("Enter your SQL username: ")
     password = input("Enter your SQL password: ")
     port = input("Enter your SQL port (press enter for the default, 3306): ")
-
+    data_dir = input("Relative to this directory, where are the sql files: ")
     if port == "":
         port = "3306"
 
-    success = load_db(_username=username, _password=password, _port=port)
+    success = load_db(_username=username, _password=password, _port=port, _data_dir=data_dir)
     print()
     if success:
         print("Successfully loaded in the data")

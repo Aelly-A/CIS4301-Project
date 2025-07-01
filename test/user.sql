@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS User;
+CREATE TABLE User (account_id VARCHAR(16) PRIMARY KEY, name VARCHAR(32), address VARCHAR(64), phone_number VARCHAR(16), email VARCHAR(32));
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("0ff257f45bf9", "Abigail Jackson", "7307 SE 16th Ave, Gainesville, FL 32605", "786-480-3786", "abigailj@ufl.edu");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("852febb10ff7", "Roberto King", "960 SW 10th Ave, Gainesville, FL 32605", "941-543-7342", "r.king@outlook.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("3473690fa9f4", "Charles Flores", "1308 NE 35th Pl, # 589, Gainesville, FL 32603", "954-946-1591", "charles.f@gmail.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("6dfd81db43c7", "Mia Cooper", "5463 SW Newberry Rd, Apt 314, Gainesville, FL 32606", "941-622-2266", "mia.c@gmail.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("c300bf887935", "Kamila Bennett", "453 NW 6th St, Suite 635, Gainesville, FL 32606", "818-403-6400", "kamilabennett@outlook.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("97ef7161a495", "Jessica Phillips", "9731 SE 31st Pl, Unit 815, Gainesville, FL 32609", "850-203-2430", "jessica.phillips@gmail.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("d22073e29a6f", "Sofia Watson", "3766 SE 2nd Pl, Apt 453, Gainesville, FL 32606", "602-844-3188", "sofiawatson@ufl.edu");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("2089b552e406", "Yusuf Anderson", "7716 SE 2nd Pl, Suite 722, Gainesville, FL 32606", "212-469-2302", "yusufa@outlook.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("781bc4a3c8d1", "Ian Myers", "3493 SW 10th Ave, Gainesville, FL 32603", "754-927-2738", "i.myers@outlook.com");
+INSERT INTO USER (account_id, name, address, phone_number, email) VALUES ("bd3c0ac7ad56", "Melissa Harris", "8604 SE 15th Pl, Gainesville, FL 32611", "813-387-5032", "melissa.h@icloud.com");

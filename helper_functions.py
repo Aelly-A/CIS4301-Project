@@ -192,7 +192,8 @@ def checkout_book():
         due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
 
         if user_place_in_line == 1 or people_in_line == 0: # User is either next in line or there is no waitlist
-            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id, checkout_date=today, due_date=due_date)
+            new_loan = Loan(isbn=isbn, account_id=account_id, due_date=due_date, checkout_date=today)
+            checkout_successful = db.checkout_book(new_loan=new_loan)
             db.update_waitlist(isbn=isbn)
             print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
 
@@ -457,7 +458,7 @@ def search_loan_history():
     if choice == "8":
         return
 
-    loans = db.get_filtered_returns(filter_attributes=new_loan_history, use_patterns=use_patterns,
+    loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
                                     min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
                                     min_due_date=min_due_date, max_due_date=max_due_date,
                                     min_return_date=min_return_date, max_return_date=max_return_date)

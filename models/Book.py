@@ -5,7 +5,7 @@ class Book:
                  author: str = None,
                  publication_year: str = None,
                  publisher: str = None,
-                 total_num_at_branch:int = None):
+                 total_num_at_branch:int = -1):
         self.isbn = isbn
         self.title = title
         self.author = author
