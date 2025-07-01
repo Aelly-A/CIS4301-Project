@@ -59,8 +59,8 @@ def load_db(_username=None, _password=None, _port=None, _data_dir='data/'):
 if __name__ == "__main__":
     username = input("Enter your SQL username: ")
     password = input("Enter your SQL password: ")
-    port = input("Enter your SQL port (default is 3306): ")
-    data_dir = input("Relative to this directory, where are the sql files (default is data/: ")
+    port = input("Enter your SQL port (3306 is the default): ")
+    data_dir = input("Relative to this directory, where are the sql files (data/ is the default): ")
     if port == "":
         port = "3306"
 
