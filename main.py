@@ -36,9 +36,10 @@ def main():
         choice = helper.print_main_menu()
 
     helper.save_changes()
-    print("Successfully saved changes")
-    print("Goodbye!")
+    print("Successfully saved changes, goodbye!")
+    print()
 
 
 if __name__ == '__main__':
+    print()
     main()
