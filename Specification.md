@@ -9,7 +9,7 @@ work on the functions as the class progresses to keep a steady pace, and not lea
 When getting data from a DB table, it is naturally returned as a 2d list. The indices of the columns within that list
 depend on the order of attributes from the `SELECT` clause. To standardize passing data between the frontend and backend, 
 we have provided Python objects that correspond to a row in each table, i.e. the Book object represents a book in the 
-Book table. Whenever the db_handler passes eligible data to the frontend, it is required to be stored in the corresponding object.
+Book table. These objects are available to you and can be found in the `models` directory. Whenever the db\_handler passes eligible data to the frontend, it is required to be stored in the corresponding object.
 Otherwise, the program will likely crash. It is recommended but not required to create helper functions in the db_handler 
 that can handle the conversion of a 2d list from a table, into a list of objects. 
 
