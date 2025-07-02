@@ -46,10 +46,10 @@ def edit_user(original_account_id: str = None, new_user: User = None):
 
 
 """
-new_loan - A loan object containing all the information needed to insert a row into the Loan table. No attributes will 
-    ever be None
+isbn - A string containing the ISBN for the book being checked out 
+account_id - A string containing the account id of the user checking out a book. 
 """
-def checkout_book(new_loan: Loan = None):
+def checkout_book(isbn: str = None, account_id: str = None):
     pass
 
 
@@ -71,21 +71,18 @@ def update_waitlist(isbn: str = None):
 """
 isbn - A string containing the ISBN for the book that the user desires to return.
 account_id - A string containing the account id for the user that wants to return the book.
-return_date - A string containing the date the book was returned, formatted in YYYY-mm-dd. e.g. January 2nd, 2000
-    would be 2000-01-02
 """
-def return_book(isbn: str = None, account_id: str = None, return_date: str = None):
+def return_book(isbn: str = None, account_id: str = None):
     pass
 
 
 """
 isbn - A string containing the ISBN for a book
 account_id - A string containing the account id for a user
-new_due_date - The date that the book is now due, formatted in YYYY-mm-dd
 """
-def grant_extension(isbn: str = None, account_id: str = None, new_due_date: str = None):
+def grant_extension(isbn: str = None, account_id: str = None):
     pass
-    
+
 
 """
 filter_attributes - A Book object containing attributes to filter books in the database. If an attribute is None 

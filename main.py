@@ -32,6 +32,7 @@ def main():
         else:
             print("Choice unrecognised")
 
+        helper.save_changes()
         print()
         choice = helper.print_main_menu()
 

@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 import db_handler as db
 from models.LoanHistory import LoanHistory
 from models.Waitlist import Waitlist
@@ -188,12 +187,9 @@ def checkout_book():
     else: # Check if user is able to check out the book
         user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
         people_in_line = db.line_length(isbn=isbn)
-        today = datetime.today().strftime("%Y-%m-%d")
-        due_date = (datetime.today() + timedelta(weeks=2)).strftime("%Y-%m-%d")
 
         if user_place_in_line == 1 or people_in_line == 0: # User is either next in line or there is no waitlist
-            new_loan = Loan(isbn=isbn, account_id=account_id, due_date=due_date, checkout_date=today)
-            checkout_successful = db.checkout_book(new_loan=new_loan)
+            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id)
             db.update_waitlist(isbn=isbn)
             print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
 
@@ -207,21 +203,16 @@ def checkout_book():
 def return_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
-    today = datetime.today().strftime("%Y-%m-%d")
 
-    return_successful = db.return_book(isbn=isbn, account_id=account_id, return_date=today)
+    return_successful = db.return_book(isbn=isbn, account_id=account_id)
     print("Successfully returned") if return_successful else print("Failed to returned")
 
 
 def grant_extension():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
-    loan_filter = Loan(isbn=isbn, account_id=account_id)
 
-    old_due_date = db.get_filtered_loans(filter_attributes=loan_filter)[0].due_date
-    new_date = (datetime.fromisoformat(old_due_date) + timedelta(weeks=2)).strftime("%Y-%m-%d")
-
-    db.grant_extension(isbn=isbn, account_id=account_id, new_due_date=new_date)
+    db.grant_extension(isbn=isbn, account_id=account_id)
 
 
 def search_books():
