@@ -106,7 +106,7 @@ def get_filtered_books(filter_attributes: Book = None,
                        use_patterns: bool = False,
                        min_publication_year: int = None,
                        max_publication_year: int = None) -> list[Book]:
-    pass
+    return []
 
 
 """
@@ -123,7 +123,7 @@ returns a list of User objects with users who meet the qualifications of the fil
     requirements, then an empty list is returned
 """
 def get_filtered_users(filter_attributes: User = None, use_patterns: bool = False) -> list[User]:
-    pass
+    return []
 
 
 """
@@ -151,7 +151,7 @@ def get_filtered_loans(filter_attributes: Loan = None,
                        max_checkout_date: str = None,
                        min_due_date: str = None,
                        max_due_date: str = None, ) -> list[Loan]:
-    pass
+    return []
 
 
 """
@@ -183,7 +183,7 @@ def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
                                 max_due_date: str = None,
                                 min_return_date: str = None,
                                 max_return_date: str = None) -> list[LoanHistory]:
-    pass
+    return []
 
 
 """
@@ -207,7 +207,7 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
                           use_patterns: bool = False,
                           min_place_in_line: int = -1,
                           max_place_in_line: int = -1) -> list[Waitlist]:
-    pass
+    return []
 
 
 """
@@ -218,7 +218,7 @@ returns the quantity of books available with their ISBN equal to the isbn parame
     have own book then -1 should be returned.
 """
 def number_in_stock(isbn: str = None) -> int:
-   pass
+   return 0
 
 
 """
@@ -229,7 +229,7 @@ returns what place in line the user with the corresponding account_id is in for 
     the user is not on the waitlist for that book then return -1
 """
 def place_in_line(isbn: str = None, account_id: str = None) -> int:
-    pass
+    return 0
 
 
 """
@@ -239,7 +239,7 @@ returns how many people are on the waitlist for the book with the corresponding 
  waitlist for a book, 5 should be returned. If the book is not on the waitlist, then 0 should be returned.
 """
 def line_length(isbn: str = None) -> int:
-    pass
+    return 0
 
 
 """
