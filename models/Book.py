@@ -5,13 +5,13 @@ class Book:
                  author: str = None,
                  publication_year: str = None,
                  publisher: str = None,
-                 total_num_at_branch:int = -1):
+                 num_owned:int = -1):
         self.isbn = isbn
         self.title = title
         self.author = author
         self.publication_year = publication_year
         self.publisher = publisher
-        self.total_num_at_branch = total_num_at_branch
+        self.num_owned = num_owned
 
     def __str__(self):
         self_str = ""
@@ -26,8 +26,8 @@ class Book:
             self_str += f"Publication year: {self.publication_year} \n"
         if self.publisher:
             self_str += f"Publisher: {self.publisher} \n"
-        if self.total_num_at_branch != -1:
-            self_str += f"Total number of at-branch: {self.total_num_at_branch} \n"
+        if self.num_owned != -1:
+            self_str += f"Total number of copies owned: {self.num_owned} \n"
 
         return self_str
 

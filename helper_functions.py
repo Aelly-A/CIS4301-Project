@@ -62,7 +62,8 @@ LOAN_OPTIONS = [
 WAITLIST_OPTIONS = [
     "ISBN",
     "Account ID",
-    "Place in line",
+    "Min Place in line",
+    "Max Place in line",
     "Continue",
     "Cancel"
 ]
@@ -195,9 +196,9 @@ def checkout_book():
         people_in_line = db.line_length(isbn=isbn)
 
         if user_place_in_line == 1 or people_in_line == 0: # User is either next in line or there is no waitlist
-            checkout_successful = db.checkout_book(isbn=isbn, account_id=account_id)
+            db.checkout_book(isbn=isbn, account_id=account_id)
             db.update_waitlist(isbn=isbn)
-            print("Successfully checked out book") if checkout_successful else print("Failed to checked out book")
+            print("Successfully checked out book")
 
         else:
             print("User is not next in line to checkout book.")
@@ -487,10 +488,10 @@ def add_book():
     author = input("Enter Author Name: ")
     publication_year = input("Enter Publication Year: ")
     publisher = input("Enter Publisher: ")
-    total_num_at_branch = int(input("Enter Number of Books: "))
+    num_owned = int(input("Enter the number of copies that the library owns: "))
 
     new_book = Book(isbn=isbn, title=title, author=author, publication_year=publication_year,
-                    publisher=publisher, total_num_at_branch=total_num_at_branch)
+                    publisher=publisher, num_owned=num_owned)
 
     db.add_book(new_book)
 

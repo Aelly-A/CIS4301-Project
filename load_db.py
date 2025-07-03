@@ -1,7 +1,8 @@
 from mysql.connector import connect, ProgrammingError
 
 def load_db(_username=None, _password=None, _port=None, _data_dir='data/'):
-    # If you get an error like 'Unknown collation', use the collation argument below
+    # If you get an error like 'Unknown collation', use the collation argument below.
+    # You will also need to make this change in the db_handler file
     try:
         conn = connect(user=_username, password=_password, host="localhost", port=_port) # , collation='utf8mb4_unicode_ci')
 

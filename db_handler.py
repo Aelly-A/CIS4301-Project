@@ -8,12 +8,13 @@ from models.User import User
 DB_CONFIG = {
     "user": "username",
     "password": "password",
+    "port": "3306",
     "host": "localhost",
     "database": "library",
 }
 
 conn = connect(user=DB_CONFIG["user"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
-               database=DB_CONFIG["database"], collation='utf8mb4_unicode_ci')
+               database=DB_CONFIG["database"], port=DB_CONFIG["port"])#, collation='utf8mb4_unicode_ci')
 
 cur = conn.cursor()
 
