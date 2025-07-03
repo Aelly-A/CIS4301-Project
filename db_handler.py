@@ -56,9 +56,11 @@ def checkout_book(isbn: str = None, account_id: str = None):
 """
 isbn - A string containing the ISBN for the book that a user desires to be waitlisted for.
 account_id - A string containing the account id for the user that wants to be waitlisted.
+
+returns an integer that is the user's place in line to checkout the book
 """
-def waitlist_user(isbn: str = None, account_id: str = None):
-    pass
+def waitlist_user(isbn: str = None, account_id: str = None) -> int:
+    return -1
 
 
 """

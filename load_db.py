@@ -61,11 +61,16 @@ if __name__ == "__main__":
     password = input("Enter your SQL password: ")
     port = input("Enter your SQL port (3306 is the default): ")
     data_dir = input("Relative to this directory, where are the sql files (data/ is the default): ")
+
     if port == "":
         port = "3306"
 
     if data_dir == "":
         data_dir = "data/"
+    elif data_dir[-1] != "/":
+        data_dir += "/"
+
+    print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
 
     success = load_db(_username=username, _password=password, _port=port, _data_dir=data_dir)
     print()

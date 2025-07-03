@@ -5,7 +5,7 @@ from models.Book import Book
 from models.User import User
 from models.Loan import Loan
 
-
+# Basic lists to make menu printing modular
 MAIN_MENU_OPTIONS = [
     "Checkout a Book",
     "Return a Book",
@@ -26,7 +26,8 @@ TABLE_OPTIONS = [
     "Cancel"
 ]
 
-BOOK_OPTIONS = [ # These are used to filter attributes when searching through tables
+# These are used to filter attributes when searching through tables
+BOOK_OPTIONS = [ 
     "ISBN",
     "Title",
     "Author",
@@ -79,9 +80,11 @@ LOAN_HISTORY_OPTIONS = [
     "Cancel"
 ]
 
+
+# Given a generic list of objects, print them out. object_name helps it sound more specific
 def print_list_of_objects(objects: list, object_name: str) -> None:
     if len(objects) == 0:
-        print("No books found")
+        print(f"No {object_name} found")
 
     else:
         print(f"Found {str(len(objects))}  {object_name}{'s' if len(objects) > 1 else ''}")
@@ -92,6 +95,7 @@ def print_list_of_objects(objects: list, object_name: str) -> None:
             print("-" * 20)
         
 
+# Generic print menu function
 def print_menu(menu_header, options):
     print(menu_header)
 
@@ -104,7 +108,7 @@ def print_menu(menu_header, options):
 
     return choice
 
-
+# Wrapper functions to simplify menu printing
 def print_main_menu():
     menu_header = "What would you like to do?"
     return print_menu(menu_header, MAIN_MENU_OPTIONS)
@@ -113,7 +117,7 @@ def print_filter_menu(options):
     return print_menu("Which attribute would you like to filter?", options)
 
 
-def print_filter_book_menu(): # Wrapper functions to simplify menu printing
+def print_filter_book_menu(): 
     return print_filter_menu(BOOK_OPTIONS)
 
 
@@ -165,11 +169,13 @@ def handle_user_menu_choice(choice, new_user=User()):
 
     return new_user
 
+
 def waitlist_user(isbn=None, account_id=None):
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
     if waitlist:
-        waitlist_successful = db.waitlist_user(isbn=isbn, account_id=account_id)
-        print("Successfully waitlisted") if waitlist_successful else print("Failed to waitlist")
+        place_in_line = db.waitlist_user(isbn=isbn, account_id=account_id)
+        print(f"User is now {place_in_line} to checkout the book")
+
 
 def checkout_book():
     isbn = input("Enter ISBN: ")
@@ -181,7 +187,7 @@ def checkout_book():
         print("This book is not available right now.")
         waitlist_user(isbn=isbn, account_id=account_id)
 
-    elif num_in_stock == -1:
+    elif num_in_stock == -1: # Library doesn't own the book
         print("This library branch does not carry this book.")
 
     else: # Check if user is able to check out the book
@@ -204,8 +210,7 @@ def return_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    return_successful = db.return_book(isbn=isbn, account_id=account_id)
-    print("Successfully returned") if return_successful else print("Failed to returned")
+    db.return_book(isbn=isbn, account_id=account_id)
 
 
 def grant_extension():
@@ -217,7 +222,7 @@ def grant_extension():
 
 def search_books():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
-    new_book = Book()
+    new_book = Book() # Create an empty book to hold filter attributes
     choice = "1"
     min_pub_year = -1
     max_pub_year = -1
@@ -243,12 +248,13 @@ def search_books():
                 max_pub_year = int(input("Max Publication Year: "))
             elif choice not in ["7", "8"]:
                 print("Unrecognized choice")
+                
         except ValueError:
             print("Please enter a valid integer value")
             print()
 
         print()
-        print("Current Attributes:")
+        print("Current Filters:")
         print("--------------------")
         print(new_book, end="")
         if min_pub_year != -1:
@@ -269,13 +275,13 @@ def search_books():
 def search_users():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_user = User()
-    sub_choice = "1"
+    _choice = "1"
 
-    while sub_choice != "6" and sub_choice < "7":
-        sub_choice = print_filter_user_menu()
-        new_user = handle_user_menu_choice(sub_choice, new_user)
+    while _choice != "6" and _choice < "7":
+        _choice = print_filter_user_menu()
+        new_user = handle_user_menu_choice(_choice, new_user)
 
-    if sub_choice == "6":
+    if _choice == "6":
         found_users = db.get_filtered_users(filter_attributes=new_user, use_patterns=use_patterns)
 
         print_list_of_objects(found_users, "user")
@@ -310,7 +316,7 @@ def search_waitlist():
             print()
 
         print()
-        print("Current Attributes:")
+        print("Current Filters:")
         print("--------------------")
         print(new_waitlist, end="")
         if min_place_in_line != -1:
@@ -363,7 +369,7 @@ def search_loan():
             print()
 
         print()
-        print("Current Attributes:")
+        print("Current Filters:")
         print("--------------------")
         print(new_loan, end="")
         if min_checkout_date:
@@ -427,7 +433,7 @@ def search_loan_history():
             print()
 
         print()
-        print("Current Attributes:")
+        print("Current Filters:")
         print("--------------------")
         print(new_loan_history, end="")
         if min_checkout_date:
@@ -502,15 +508,15 @@ def add_user():
 
 def edit_user():
     og_account_id = input("User's Account ID: ")
-    print()
     new_user = User()
-    sub_choice = '1'
+    choice = '1'
 
-    while sub_choice != "6" and sub_choice < "7":
-        sub_choice = print_edit_user_menu()
-        new_user = handle_user_menu_choice(sub_choice, new_user)
+    print()
+    while choice != "6" and choice < "7":
+        choice = print_edit_user_menu()
+        new_user = handle_user_menu_choice(choice, new_user)
 
-    if sub_choice == "6":
+    if choice == "6":
         db.edit_user(original_account_id=og_account_id, new_user=new_user)
 
 

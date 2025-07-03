@@ -1,7 +1,7 @@
 import helper_functions as helper
 
 def main():
-    choice = helper.print_main_menu()
+    choice = helper.print_main_menu() # Leaving the input as str so there won't be a type error when converting to int
     exit_choice = str(len(helper.MAIN_MENU_OPTIONS))
 
     while choice != exit_choice: # Main loop
@@ -42,5 +42,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print()
     main()
