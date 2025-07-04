@@ -5,11 +5,11 @@ class User:
                  address: str = None,
                  phone_number: str = None,
                  email: str = None):
-        self.account_id = account_id
-        self.name = name
-        self.address = address
-        self.phone_number = phone_number
-        self.email = email
+        self.account_id = str(account_id)
+        self.name = str(name)
+        self.address = str(address)
+        self.phone_number = str(phone_number)
+        self.email = str(email)
 
     def __str__(self):
         self_str = ""

@@ -1,6 +1,6 @@
 from mysql.connector import connect, ProgrammingError
 
-def load_db(_username=None, _password=None, _port=None, _data_dir='data/'):
+def load_db(_username=None, _password=None, _port="3306", _data_dir='data/', verbose=True):
     # If you get an error like 'Unknown collation', use the collation argument below.
     # You will also need to make this change in the db_handler file
     try:
@@ -8,38 +8,27 @@ def load_db(_username=None, _password=None, _port=None, _data_dir='data/'):
 
         cur = conn.cursor()
 
-        cur.execute('DROP DATABASE IF EXISTS library')
-        cur.execute('CREATE DATABASE library')
+        cur.execute('CREATE DATABASE IF NOT EXISTS library')
         cur.execute('USE library')
 
-        print()
-        print("Connected to the DB")
-        print("Inserting Data...")
+        if verbose:
+            print()
+            print("Connected to the DB")
+            print("Inserting Data...")
 
-        for line in open(_data_dir + "book.sql", "r"):
-            cur.execute(line)
+        filenames = ["book.sql", "user.sql", "loan_history.sql", "loan.sql", "waitlist.sql"]
 
-        print("Inserted Books")
+        for filename in filenames:
+            with open(_data_dir + filename, "r") as file:
+                if verbose:
+                    print("Inserting data from", filename)
 
-        for line in open(_data_dir + "user.sql", "r"):
-            cur.execute(line)
+                for line in file:
+                    cur.execute(line)
 
-        print("Inserted Users")
-
-        for line in open(_data_dir + "loan_history.sql", "r"):
-            cur.execute(line)
-
-        print("Inserted Loan Histories")
-
-        for line in open(_data_dir + "loan.sql", "r"):
-            cur.execute(line)
-
-        print("Inserted Loans")
-
-        for line in open(_data_dir + "waitlist.sql", "r"):
-            cur.execute(line)
-
-        print("Inserted Waitlists")
+                if verbose:
+                    print("Inserted data from", filename)
+                    print()
 
         conn.commit()
         conn.close()

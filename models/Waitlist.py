@@ -3,8 +3,8 @@ class Waitlist:
                  isbn: str = None,
                  account_id: str = None,
                  place_in_line: int = -1):
-        self.isbn = isbn
-        self.account_id = account_id
+        self.isbn = str(isbn)
+        self.account_id = str(account_id)
         self.place_in_line = place_in_line
 
     def __str__(self):

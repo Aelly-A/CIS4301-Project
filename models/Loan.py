@@ -4,10 +4,10 @@ class Loan:
                  account_id: str = None,
                  checkout_date: str = None,
                  due_date: str = None):
-        self.isbn = isbn
-        self.account_id = account_id
-        self.checkout_date = checkout_date
-        self.due_date = due_date
+        self.isbn = str(isbn)
+        self.account_id = str(account_id)
+        self.checkout_date = str(checkout_date)
+        self.due_date = str(due_date)
 
     def __str__(self):
         self_str = ""
