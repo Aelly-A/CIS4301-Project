@@ -527,3 +527,7 @@ def edit_user():
 
 def save_changes():
     db.save_changes()
+
+
+def close_connection():
+    db.close_connection()

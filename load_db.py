@@ -1,11 +1,17 @@
 from mysql.connector import connect, ProgrammingError
 from SQL_CREDS import DB_CONFIG
 
-def load_db(username=None, password=None, port="3306", data_dir='data/', verbose=True, parent_cur=None):
+def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
     # If you get an error like 'Unknown collation', use the collation argument below.
     # You will also need to make this change in the db_handler file
     try:
-        if parent_cur is None:
+        if parent_cur is None and parent_conn is None:
+            username = DB_CONFIG["username"]
+            password = DB_CONFIG["password"]
+            port = DB_CONFIG["port"]
+
+            print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
+
             conn = connect(user=username, password=password, host="localhost", port=port) # , collation='utf8mb4_unicode_ci')
             cur = conn.cursor()
         else:
@@ -32,10 +38,14 @@ def load_db(username=None, password=None, port="3306", data_dir='data/', verbose
                 if verbose:
                     print("Inserted data from", filename)
                     print()
-        if parent_cur is None:
+
+        if parent_cur is None and parent_conn is None:
             cur.close()
             conn.commit()
             conn.close()
+
+        else:
+            parent_conn.commit()
 
         return True
 
@@ -58,13 +68,7 @@ def main():
     elif data_dir[-1] != "/":
         data_dir += "/"
 
-    username = DB_CONFIG["username"]
-    password = DB_CONFIG["password"]
-    port = DB_CONFIG["port"]
-
-    print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
-
-    success = load_db(username=username, password=password, port=port, data_dir=data_dir)
+    success = load_db(data_dir=data_dir)
     print()
     if success:
         print("Successfully loaded in the data")

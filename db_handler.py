@@ -239,7 +239,14 @@ def line_length(isbn: str = None) -> int:
 
 
 """
-Commits all changes made to the db to this point, and has no return
+Commits all changes made to the db
 """
 def save_changes():
+    pass
+
+
+"""
+Closes the cursor and connection
+"""
+def close_connection():
     pass
