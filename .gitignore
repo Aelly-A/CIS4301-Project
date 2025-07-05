@@ -5,5 +5,5 @@ DONTPUSHDBHANDLER.py
 test
 ER.png
 Specification.md
-tests/
 SQL_CREDS.py
+private_tests.py

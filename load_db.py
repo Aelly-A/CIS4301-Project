@@ -1,4 +1,4 @@
-from mysql.connector import connect, ProgrammingError
+from mariadb import connect, ProgrammingError
 from SQL_CREDS import DB_CONFIG
 
 def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
@@ -12,7 +12,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
 
             print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
 
-            conn = connect(user=username, password=password, host="localhost", port=port) # , collation='utf8mb4_unicode_ci')
+            conn = connect(username=username, password=password, host="localhost", port=port) # , collation='utf8mb4_unicode_ci')
             cur = conn.cursor()
         else:
             cur = parent_cur
@@ -33,7 +33,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
                     print("Inserting data from", filename)
 
                 for line in file:
-                    cur.execute(line)
+                    cur.execute(line, ["?"] * line.count("?"))
 
                 if verbose:
                     print("Inserted data from", filename)
@@ -47,18 +47,12 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
         else:
             parent_conn.commit()
 
-        return True
-
     except ProgrammingError as e:
-        print()
-        print(f"Could not log into the database using")
-        print(f"\tUsername: {username}")
-        print(f"\tPassword: {password}")
-        print(f"\tPort: {port}")
-        print()
         print("Error:", e)
 
         return False
+
+    return True
 
 
 def main():
@@ -69,7 +63,7 @@ def main():
         data_dir += "/"
 
     success = load_db(data_dir=data_dir)
-    print()
+
     if success:
         print("Successfully loaded in the data")
     else:
