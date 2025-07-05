@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS Waitlist;
+CREATE TABLE Waitlist(isbn VARCHAR(16),account_id VARCHAR(16),place_in_line INT(3),PRIMARY KEY (isbn, account_id));
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0553119583", "b5b96275c89d", 1);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0553119583", "a035197090e1", 2);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0439326966", "bf23ccd7e59d", 1);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0553119583", "31e7860188b4", 3);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0553119583", "d4ab8c4c138a", 4);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0439326966", "0f543a8d458e", 2);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0553119583", "fb36be726755", 5);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0439326966", "a035197090e1", 3);
+INSERT INTO Waitlist (isbn, account_id, place_in_line) VALUES ("0439326966", "a8e710cfca3b", 4);
