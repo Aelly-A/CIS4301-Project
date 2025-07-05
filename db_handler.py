@@ -6,13 +6,14 @@ from models.Book import Book
 from models.Loan import Loan
 from models.User import User
 
+fullname = "Firstname Lastname"
+ufid = "00000000"
+
 conn = connect(username=DB_CONFIG["username"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
                database=DB_CONFIG["database"], port=DB_CONFIG["port"])#, collation='utf8mb4_unicode_ci')
 
 cur = conn.cursor()
 
-fullname = "Firstname Lastname"
-ufid = "00000000"
 
 """
 new_book - A Book object containing a new book to be inserted into the DB in the Books table. 

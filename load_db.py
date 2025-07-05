@@ -48,7 +48,8 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
             parent_conn.commit()
 
     except ProgrammingError as e:
-        print("Error:", e)
+        if verbose:
+            print("Error:", e)
 
         return False
 
