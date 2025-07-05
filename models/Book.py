@@ -3,14 +3,14 @@ class Book:
                  isbn: str = None,
                  title: str = None,
                  author: str = None,
-                 publication_year: str = None,
+                 publication_year: int = None,
                  publisher: str = None,
                  num_owned:int = -1):
-        self.isbn = str(isbn)
-        self.title = str(title)
-        self.author = str(author)
-        self.publication_year = str(publication_year)
-        self.publisher = str(publisher)
+        self.isbn = isbn
+        self.title = title
+        self.author = author
+        self.publication_year = publication_year
+        self.publisher = publisher
         self.num_owned = num_owned
 
     def __str__(self):

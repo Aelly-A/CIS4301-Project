@@ -1,3 +1,4 @@
+from SQL_CREDS import DB_CONFIG
 from mysql.connector import connect
 from models.LoanHistory import LoanHistory
 from models.Waitlist import Waitlist
@@ -5,15 +6,7 @@ from models.Book import Book
 from models.Loan import Loan
 from models.User import User
 
-DB_CONFIG = {
-    "user": "username",
-    "password": "password",
-    "port": "3306",
-    "host": "localhost",
-    "database": "library",
-}
-
-conn = connect(user=DB_CONFIG["user"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
+conn = connect(user=DB_CONFIG["username"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
                database=DB_CONFIG["database"], port=DB_CONFIG["port"])#, collation='utf8mb4_unicode_ci')
 
 cur = conn.cursor()
@@ -107,8 +100,8 @@ returns a list of Book objects with books that meet the qualifications of the fi
 """
 def get_filtered_books(filter_attributes: Book = None,
                        use_patterns: bool = False,
-                       min_publication_year: int = None,
-                       max_publication_year: int = None) -> list[Book]:
+                       min_publication_year: int = -1,
+                       max_publication_year: int = -1) -> list[Book]:
     return []
 
 

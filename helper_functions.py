@@ -32,6 +32,7 @@ BOOK_OPTIONS = [
     "Title",
     "Author",
     "Publisher",
+    "Number of Copies Owned",
     "Min Publication Year",
     "Max Publication Year",
     "Continue",
@@ -243,11 +244,14 @@ def search_books():
             elif choice == "4":
                 new_publisher = input("Publisher: ")
                 new_book.publisher = new_publisher
-            elif choice == "5":
-                min_pub_year = int(input("Min Publication Year: "))
+            elif choice == "4":
+                new_num_owned = input("Number of Copies Owned: ")
+                new_book.num_owned = new_num_owned
             elif choice == "6":
+                min_pub_year = int(input("Min Publication Year: "))
+            elif choice == "7":
                 max_pub_year = int(input("Max Publication Year: "))
-            elif choice not in ["7", "8"]:
+            elif choice not in ["8", "9"]:
                 print("Unrecognized choice")
                 
         except ValueError:

@@ -37,6 +37,7 @@ def main():
         choice = helper.print_main_menu()
 
     helper.save_changes()
+    helper.close_connection()
     print("Successfully saved changes, goodbye!")
     print()
 
