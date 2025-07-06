@@ -6,10 +6,10 @@ from models.Book import Book
 from models.Loan import Loan
 from models.User import User
 
-fullname = "Firstname Lastname"
-ufid = "00000000"
+UFID = "00000000"
+FULLNAME = "Lastname, Firstname"
 
-conn = connect(username=DB_CONFIG["username"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
+conn = connect(user=DB_CONFIG["username"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
                database=DB_CONFIG["database"], port=DB_CONFIG["port"])#, collation='utf8mb4_unicode_ci')
 
 cur = conn.cursor()

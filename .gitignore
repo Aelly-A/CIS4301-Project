@@ -7,4 +7,6 @@ ER.png
 Specification.md
 SQL_CREDS.py
 private_tests.py
-test.py
+autograder.py
+test_results.csv
+project_grades.csv

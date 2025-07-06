@@ -20,9 +20,9 @@ MAIN_MENU_OPTIONS = [
 TABLE_OPTIONS = [
     "Book",
     "User",
-    "Waitlist",
     "Loan",
     "Loan History",
+    "Waitlist",
     "Cancel"
 ]
 
@@ -83,13 +83,13 @@ LOAN_HISTORY_OPTIONS = [
 ]
 
 
-# Given a generic list of objects, print them out. object_name helps it sound more specific
+# Given a generic list of objects, print them out. The object_name var helps it sound more specific
 def print_list_of_objects(objects: list, object_name: str) -> None:
     if len(objects) == 0:
         print(f"No {object_name} found")
 
     else:
-        print(f"Found {str(len(objects))}  {object_name}{'s' if len(objects) > 1 else ''}")
+        print(f"Found {str(len(objects))} {object_name}{'s' if len(objects) > 1 else ''}:\n")
 
         for o in objects:
             print("-" * 20)
@@ -146,7 +146,7 @@ def print_edit_user_menu():
 
 def handle_user_menu_choice(choice, new_user=User()):
     if choice == "1":
-        new_account_id = input("New Account ID: ")
+        new_account_id = input("Account ID: ")
         new_user.account_id = new_account_id
     elif choice == "2":
         new_name = input("Name: ")
@@ -163,20 +163,93 @@ def handle_user_menu_choice(choice, new_user=User()):
     elif choice not in ["6", "7"]:
         print("Invalid choice")
 
-    print("Current Attributes:")
-    print("--------------------")
-    print(new_user, end="")
-    print("--------------------")
-    print()
+    if choice != "7":
+        print("Current Attributes:")
+        print("--------------------")
+        print(new_user, end="")
+        print("--------------------")
+        print()
 
     return new_user
+
+
+
+def add_book():
+    publication_year = -1
+    num_owned = 0
+    isbn = input("Enter ISBN: ")
+    title = input("Enter Title: ")
+    author = input("Enter Author: ")
+    publisher = input("Enter Publisher: ")
+
+    while publication_year == -1:
+        try:
+            publication_year = int(input("Enter Publication Year: "))
+
+            if publication_year < 0:
+                raise ValueError("Publication Year cannot be negative")
+
+        except ValueError:
+            print("Please enter a valid publication year")
+            publication_year = -1
+
+        while num_owned == 0:
+            try:
+                num_owned = int(input("Enter the number of copies that the library owns: "))
+
+                if num_owned < 1:
+                    raise ValueError("Number of copies owned cannot be less than one")
+
+            except ValueError:
+                print("Please enter a valid number")
+                num_owned = 0
+
+    new_book = Book(isbn=isbn, title=title, author=author, publication_year=publication_year,
+                    publisher=publisher, num_owned=num_owned)
+
+    db.add_book(new_book)
+
+
+def add_user():
+    account_id = input("Enter Account ID: ")
+    name = input("Enter Name: ")
+    email = input("Enter Email: ")
+    phone_number = input("Enter Phone Number: ")
+    address = input("Enter Address: ")
+
+    new_user = User(account_id=account_id, name=name, email=email, address=address, phone_number=phone_number)
+    db.add_user(new_user=new_user)
+
+
+def edit_user():
+    og_account_id = input("User's Account ID: ")
+    new_user = User()
+    choice = '1'
+
+    print()
+    while choice != "6" and choice < "7":
+        choice = print_edit_user_menu()
+        new_user = handle_user_menu_choice(choice, new_user)
+
+    if choice == "6":
+        db.edit_user(original_account_id=og_account_id, new_user=new_user)
 
 
 def waitlist_user(isbn=None, account_id=None):
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
     if waitlist:
         place_in_line = db.waitlist_user(isbn=isbn, account_id=account_id)
-        print(f"User is now {place_in_line} to checkout the book")
+
+        # Probably a better way to do this, but if it works it works
+        num_suffix = "th"
+        if place_in_line == 1:
+            num_suffix = "st"
+        elif place_in_line == 2:
+            num_suffix = "nd"
+        elif place_in_line == 3:
+            num_suffix = "rd"
+
+        print(f"The user is now {place_in_line}{num_suffix} in line to checkout the book")
 
 
 def checkout_book():
@@ -189,7 +262,7 @@ def checkout_book():
         print("This book is not available right now.")
         waitlist_user(isbn=isbn, account_id=account_id)
 
-    elif num_in_stock == -1: # Library doesn't own the book
+    elif num_in_stock == -1: # Book not available
         print("This library branch does not carry this book.")
 
     else: # Check if user is able to check out the book
@@ -229,7 +302,7 @@ def search_books():
     min_pub_year = -1
     max_pub_year = -1
 
-    while choice != "7" and choice != "8":
+    while choice != "8" and choice != "9":
         choice = print_filter_book_menu()
         try:
             if choice == "1":
@@ -258,6 +331,9 @@ def search_books():
             print("Please enter a valid integer value")
             print()
 
+        if choice == "9":
+            return
+
         print()
         print("Current Filters:")
         print("--------------------")
@@ -268,9 +344,6 @@ def search_books():
             print(f"Max Publication Year: {max_pub_year}")
         print("--------------------")
         print()
-
-    if choice == "8":
-        return
 
     books = db.get_filtered_books(filter_attributes=new_book, use_patterns=use_patterns,
                                   min_publication_year=min_pub_year, max_publication_year=max_pub_year)
@@ -320,6 +393,9 @@ def search_waitlist():
             print("Please enter a valid integer value")
             print()
 
+        if choice == "6":
+            return
+
         print()
         print("Current Filters:")
         print("--------------------")
@@ -331,8 +407,6 @@ def search_waitlist():
         print("--------------------")
         print()
 
-    if choice == "8":
-        return
 
     waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, use_patterns=use_patterns,
                                   min_place_in_line=min_place_in_line, max_place_in_line=max_place_in_line)
@@ -373,6 +447,9 @@ def search_loan():
             print("Please enter a valid integer value")
             print()
 
+        if choice == "8":
+            return
+
         print()
         print("Current Filters:")
         print("--------------------")
@@ -388,9 +465,6 @@ def search_loan():
         print("--------------------")
         print()
 
-
-    if choice == "8":
-        return
 
     loans = db.get_filtered_loans(filter_attributes=new_loan, use_patterns=use_patterns,
                                              min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
@@ -437,6 +511,9 @@ def search_loan_history():
             print("Please enter a valid integer value")
             print()
 
+        if choice == "10":
+            return
+
         print()
         print("Current Filters:")
         print("--------------------")
@@ -457,9 +534,6 @@ def search_loan_history():
         print()
 
 
-    if choice == "8":
-        return
-
     loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
                                     min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
                                     min_due_date=min_due_date, max_due_date=max_due_date,
@@ -475,54 +549,15 @@ def search_tables():
     elif choice == "2":
         search_users()
     elif choice == "3":
-        search_waitlist()
-    elif choice == "4":
         search_loan()
-    elif choice == "5":
+    elif choice == "4":
         search_loan_history()
+    elif choice == "5":
+        search_waitlist()
     elif choice == "6":
         return
     else:
         print("Invalid choice")
-
-
-def add_book():
-    isbn = input("Enter ISBN: ")
-    title = input("Enter Title: ")
-    author = input("Enter Author Name: ")
-    publication_year = input("Enter Publication Year: ")
-    publisher = input("Enter Publisher: ")
-    num_owned = int(input("Enter the number of copies that the library owns: "))
-
-    new_book = Book(isbn=isbn, title=title, author=author, publication_year=publication_year,
-                    publisher=publisher, num_owned=num_owned)
-
-    db.add_book(new_book)
-
-
-def add_user():
-    account_id = input("Enter Account ID: ")
-    name = input("Enter Name: ")
-    email = input("Enter Email: ")
-    phone_number = input("Enter Phone Number: ")
-    address = input("Enter Address: ")
-
-    new_user = User(account_id=account_id, name=name, email=email, address=address, phone_number=phone_number)
-    db.add_user(new_user=new_user)
-
-
-def edit_user():
-    og_account_id = input("User's Account ID: ")
-    new_user = User()
-    choice = '1'
-
-    print()
-    while choice != "6" and choice < "7":
-        choice = print_edit_user_menu()
-        new_user = handle_user_menu_choice(choice, new_user)
-
-    if choice == "6":
-        db.edit_user(original_account_id=og_account_id, new_user=new_user)
 
 
 def save_changes():

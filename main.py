@@ -4,7 +4,8 @@ def main():
     choice = helper.print_main_menu() # Leaving the input as str so there won't be a type error when converting to int
     exit_choice = str(len(helper.MAIN_MENU_OPTIONS))
 
-    while choice != exit_choice: # Main loop
+    # Main loop
+    while choice != exit_choice:
         if choice == "1": # Checkout a Book
             helper.checkout_book()
 
@@ -32,13 +33,12 @@ def main():
         else:
             print("Choice unrecognised")
 
-        helper.save_changes()
+        helper.save_changes() # Save changes after an iteration
         print()
         choice = helper.print_main_menu()
 
-    helper.save_changes()
-    helper.close_connection()
-    print("Successfully saved changes, goodbye!")
+    helper.close_connection() # Safely close the connection
+    print("Successfully saved changes, Goodbye!")
     print()
 
 

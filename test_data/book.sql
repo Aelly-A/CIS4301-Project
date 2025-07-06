@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS Book;
-CREATE TABLE Book(isbn VARCHAR(16) PRIMARY KEY, title VARCHAR(256) NOT NULL, author VARCHAR(128), publication_year INT(4), publisher VARCHAR(128), num_owned INT(3));
+CREATE TABLE Book(isbn VARCHAR(16) PRIMARY KEY, title VARCHAR(256), author VARCHAR(128), publication_year INT(4), publisher VARCHAR(128), num_owned INT(3));
 INSERT INTO Book (isbn, title, author, publication_year, publisher, num_owned) VALUES ('0767409752', 'A Guided Tour of Rene Descartes\' Meditations on First Philosophy with Complete Translations of the Meditations by Ronald Rubin', 'Christopher  Biffle', 2000, 'McGraw-Hill Humanities/Social Sciences/Languages', 7);
 INSERT INTO Book (isbn, title, author, publication_year, publisher, num_owned) VALUES ('0743482891', 'Now You See Her', 'Linda Howard', 2003, 'Pocket Books', 2);
 INSERT INTO Book (isbn, title, author, publication_year, publisher, num_owned) VALUES ('0375703764', 'House of Leaves', 'Mark Z. Danielewski', 2000, 'Pantheon Books', 4);
