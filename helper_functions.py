@@ -173,7 +173,6 @@ def handle_user_menu_choice(choice, new_user=User()):
     return new_user
 
 
-
 def add_book():
     publication_year = -1
     num_owned = 0
@@ -365,7 +364,6 @@ def search_users():
         print_list_of_objects(found_users, "user")
 
 
-
 def search_waitlist():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_waitlist = Waitlist()
@@ -406,7 +404,6 @@ def search_waitlist():
             print(f"Max Place in Line: {max_place_in_line}")
         print("--------------------")
         print()
-
 
     waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, use_patterns=use_patterns,
                                   min_place_in_line=min_place_in_line, max_place_in_line=max_place_in_line)
@@ -464,7 +461,6 @@ def search_loan():
             print(f"Max Due Date: {max_due_date}")
         print("--------------------")
         print()
-
 
     loans = db.get_filtered_loans(filter_attributes=new_loan, use_patterns=use_patterns,
                                              min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
@@ -532,7 +528,6 @@ def search_loan_history():
             print(f"Max Return Date: {max_return_date}")
         print("--------------------")
         print()
-
 
     loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
                                     min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
