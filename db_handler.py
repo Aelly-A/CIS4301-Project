@@ -1,5 +1,5 @@
 from SQL_CREDS import DB_CONFIG
-from mysql.connector import connect
+from mariadb import connect
 from models.LoanHistory import LoanHistory
 from models.Waitlist import Waitlist
 from models.Book import Book

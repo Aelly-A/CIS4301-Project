@@ -8,5 +8,7 @@ Specification.md
 SQL_CREDS.py
 private_tests.py
 autograder.py
-test_results.csv
-project_grades.csv
+autograder_output
+autograder_output/test_results.csv
+autograder_output/project_grades.csv
+submissions
