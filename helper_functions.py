@@ -84,9 +84,9 @@ LOAN_HISTORY_OPTIONS = [
 
 
 # Given a generic list of objects, print them out. The object_name var helps it sound more specific
-def print_list_of_objects(objects: list, object_name: str) -> None:
+def print_list_of_objects(objects: list, object_name: str):
     if len(objects) == 0:
-        print(f"No {object_name} found")
+        print(f"No {object_name}s found")
 
     else:
         print(f"Found {str(len(objects))} {object_name}{'s' if len(objects) > 1 else ''}:\n")
@@ -110,7 +110,7 @@ def print_menu(menu_header, options):
 
     return choice
 
-# Wrapper functions to simplify menu printing
+# Wrapper functions to simplify menu printing and help code readability
 def print_main_menu():
     menu_header = "What would you like to do?"
     return print_menu(menu_header, MAIN_MENU_OPTIONS)
@@ -160,7 +160,7 @@ def handle_user_menu_choice(choice, new_user=User()):
     elif choice == "5":
         new_email = input("Email: ")
         new_user.email = new_email
-    elif choice not in ["6", "7"]:
+    elif choice not in ["6", "7"]: # Cancel and Continue options
         print("Invalid choice")
 
     if choice != "7":
@@ -174,8 +174,8 @@ def handle_user_menu_choice(choice, new_user=User()):
 
 
 def add_book():
-    publication_year = -1
     num_owned = 0
+    publication_year = -1
     isbn = input("Enter ISBN: ")
     title = input("Enter Title: ")
     author = input("Enter Author: ")
@@ -297,9 +297,9 @@ def grant_extension():
 def search_books():
     use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_book = Book() # Create an empty book to hold filter attributes
-    choice = "1"
     min_pub_year = -1
     max_pub_year = -1
+    choice = "1"
 
     while choice != "8" and choice != "9":
         choice = print_filter_book_menu()

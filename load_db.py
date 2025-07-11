@@ -2,9 +2,10 @@ from mariadb import connect, ProgrammingError
 from SQL_CREDS import DB_CONFIG
 
 def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
-    # If you get an error like 'Unknown collation', use the collation argument below.
+    # If you get an error like 'Unknown collation', use the collation argument in line 16.
     # You will also need to make this change in the db_handler file
     try:
+        # parent_cur and conn are only needed to run the tests and not have multiple connections to the DB.
         if parent_cur is None and parent_conn is None:
             username = DB_CONFIG["username"]
             password = DB_CONFIG["password"]
@@ -27,11 +28,13 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
 
         filenames = ["book.sql", "user.sql", "loan_history.sql", "loan.sql", "waitlist.sql"]
 
+        # Run through all the data files and execute them line by line
         for filename in filenames:
             with open(data_dir + filename, "r") as file:
                 if verbose:
                     print("Inserting data from", filename)
 
+                # The second arguement is due to MariaDB using '?' as a placeholder, so we're saying put ? in its place
                 for line in file:
                     cur.execute(line, ["?"] * line.count("?"))
 
@@ -47,11 +50,18 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
         else:
             parent_conn.commit()
 
+    # Some SQL error, could be bad login or something else
     except ProgrammingError as e:
         if verbose:
             print("Error:", e)
 
         return False
+
+    # Case if data_dir is bad
+    except FileNotFoundError:
+        if verbose:
+            print(f"Could not find directory {data_dir}. Please make sure you use tha path relative to CIS4301-Project.")
+            print(f"So for example, this file is ./load_db.py")
 
     return True
 
