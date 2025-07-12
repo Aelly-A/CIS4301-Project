@@ -4,31 +4,21 @@ def main():
     choice = helper.print_main_menu() # Leaving the input as str so there won't be a type error when converting to int
     exit_choice = str(len(helper.MAIN_MENU_OPTIONS))
 
+    # Dictionary to convert user input into a function
+    top_level_functions = {
+        "1": helper.checkout_book,
+        "2": helper.return_book,
+        "3": helper.grant_extension,
+        "4": helper.search_tables,
+        "5": helper.add_book,
+        "6": helper.add_user,
+        "7": helper.edit_user,
+    }
+
     # Main loop
     while choice != exit_choice:
-        if choice == "1": # Checkout a Book
-            helper.checkout_book()
-
-        elif choice == "2": # Return a Book
-            helper.return_book()
-
-        elif choice == "3": # Grant an Extension
-            helper.grant_extension()
-
-        elif choice == "4":  # Search a Table
-            helper.search_tables()
-
-        elif choice == "5":  # Add a Book
-            helper.add_book()
-
-        elif choice == "6":  # Add a User
-            helper.add_user()
-
-        elif choice == "7":  # Edit a User
-            helper.edit_user()
-
-        elif choice == exit_choice: # Exit
-            break
+        if choice in top_level_functions.keys():
+            top_level_functions[choice]() # Get the func from the dictionary and run it
 
         else:
             print("Choice unrecognised")
