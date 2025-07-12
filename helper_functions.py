@@ -116,7 +116,8 @@ def print_main_menu():
     return print_menu(menu_header, MAIN_MENU_OPTIONS)
 
 def print_filter_menu(options):
-    return print_menu("Which attribute would you like to filter?", options)
+    menu_header = "Which attribute would you like to filter?"
+    return print_menu(menu_header, options)
 
 
 def print_filter_book_menu(): 
@@ -236,16 +237,18 @@ def edit_user():
 
 def waitlist_user(isbn=None, account_id=None):
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
+
     if waitlist:
         place_in_line = db.waitlist_user(isbn=isbn, account_id=account_id)
 
         # Probably a better way to do this, but if it works it works
+        last_digit = place_in_line % 10
         num_suffix = "th"
-        if place_in_line == 1:
+        if last_digit == 1:
             num_suffix = "st"
-        elif place_in_line == 2:
+        elif last_digit == 2:
             num_suffix = "nd"
-        elif place_in_line == 3:
+        elif last_digit == 3:
             num_suffix = "rd"
 
         print(f"The user is now {place_in_line}{num_suffix} in line to checkout the book")
@@ -257,7 +260,7 @@ def checkout_book():
 
     num_in_stock = db.number_in_stock(isbn=isbn)
 
-    if num_in_stock == 0:  # Waitlist
+    if num_in_stock == 0:  # Out of stock, waitlist the user
         print("This book is not available right now.")
         waitlist_user(isbn=isbn, account_id=account_id)
 
