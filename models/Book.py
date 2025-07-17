@@ -3,9 +3,9 @@ class Book:
                  isbn: str = None,
                  title: str = None,
                  author: str = None,
-                 publication_year: int = None,
+                 publication_year: int = -1,
                  publisher: str = None,
-                 num_owned:int = -1):
+                 num_owned: int = -1):
         self.isbn = isbn
         self.title = title
         self.author = author
@@ -22,7 +22,7 @@ class Book:
             self_str += f"Title: {self.title} \n"
         if self.author:
             self_str += f"Author: {self.author} \n"
-        if self.publication_year:
+        if self.publication_year != -1:
             self_str += f"Publication year: {self.publication_year} \n"
         if self.publisher:
             self_str += f"Publisher: {self.publisher} \n"
