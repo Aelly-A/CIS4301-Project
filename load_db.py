@@ -34,7 +34,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
                 if verbose:
                     print("Inserting data from", filename)
 
-                # The second arguement is due to MariaDB using '?' as a placeholder, so we're saying put ? in its place
+                # The second argument is due to MariaDB using '?' as a placeholder, so we're saying put ? in its place
                 for line in file:
                     cur.execute(line, ["?"] * line.count("?"))
 

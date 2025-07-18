@@ -15,17 +15,6 @@ def main():
         "7": helper.edit_user,
     }
 
-    # Dictionary to convert user input into a function
-    top_level_functions = {
-        "1": helper.checkout_book,
-        "2": helper.return_book,
-        "3": helper.grant_extension,
-        "4": helper.search_tables,
-        "5": helper.add_book,
-        "6": helper.add_user,
-        "7": helper.edit_user,
-    }
-
     # Main loop
     while choice != exit_choice:
         if choice in top_level_functions.keys():
