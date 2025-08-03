@@ -433,13 +433,13 @@ def search_loan():
                 new_account_id = input("Account ID: ")
                 new_loan.account_id = new_account_id
             elif choice == "3":
-                min_checkout_date = input("Min Checkout Date: ")
+                min_checkout_date = input("Min Checkout Date (YYYY-MM-DD): ")
             elif choice == "4":
-                max_checkout_date = input("Max Checkout Date: ")
+                max_checkout_date = input("Max Checkout Date (YYYY-MM-DD): ")
             elif choice == "5":
-                min_due_date = input("Max Due Date: ")
+                min_due_date = input("Max Due Date (YYYY-MM-DD): ")
             elif choice == "6":
-                max_due_date = input("Max Due Date: ")
+                max_due_date = input("Max Due Date (YYYY-MM-DD): ")
             elif choice not in ["7", "8"]:
                 print("Unrecognized choice")
 
@@ -492,17 +492,17 @@ def search_loan_history():
                 new_account_id = input("Account ID: ")
                 new_loan_history.account_id = new_account_id
             elif choice == "3":
-                min_checkout_date = input("Min Checkout Date: ")
+                min_checkout_date = input("Min Checkout Date (YYYY-MM-DD): ")
             elif choice == "4":
-                max_checkout_date = input("Max Checkout Date: ")
+                max_checkout_date = input("Max Checkout Date (YYYY-MM-DD): ")
             elif choice == "5":
-                min_due_date = input("Max Due Date: ")
+                min_due_date = input("Max Due Date (YYYY-MM-DD): ")
             elif choice == "6":
-                max_due_date = input("Max Due Date: ")
+                max_due_date = input("Max Due Date (YYYY-MM-DD): ")
             elif choice == "7":
-                min_return_date = input("Max Return Date: ")
+                min_return_date = input("Max Return Date (YYYY-MM-DD): ")
             elif choice == "8":
-                max_return_date = input("Max Return Date: ")
+                max_return_date = input("Max Return Date (YYYY-MM-DD): ")
             elif choice not in ["9", "10"]:
                 print("Unrecognized choice")
 
