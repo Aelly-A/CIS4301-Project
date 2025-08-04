@@ -276,10 +276,10 @@ def checkout_book():
             db.update_waitlist(isbn=isbn)
             print("Successfully checked out book")
 
-        else:
+        else: # There is a waitlist and user isn't next
             print("User is not next in line to checkout book.")
 
-            if people_in_line > 1 and user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
+            if people_in_line > 0 and user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
                 waitlist_user(isbn=isbn, account_id=account_id)
 
 
