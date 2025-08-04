@@ -1,4 +1,4 @@
-from SQL_CREDS import DB_CONFIG
+from MARIADB_CREDS import DB_CONFIG
 from mariadb import connect
 from models.LoanHistory import LoanHistory
 from models.Waitlist import Waitlist

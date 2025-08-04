@@ -4,7 +4,6 @@ submissions
 test
 .idea
 .DS_Store
-SQL_CREDS.py
 autograder.py
 private_tests.py
 DONTPUSHDBHANDLER.py

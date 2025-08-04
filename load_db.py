@@ -1,5 +1,5 @@
 from mariadb import connect, ProgrammingError
-from SQL_CREDS import DB_CONFIG
+from MARIADB_CREDS import DB_CONFIG
 
 def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
     # If you get an error like 'Unknown collation', use the collation argument in line 16.

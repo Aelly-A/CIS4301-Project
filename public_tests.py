@@ -5,7 +5,7 @@ from mariadb import connect
 
 import db_handler as db
 from load_db import load_db
-from SQL_CREDS import DB_CONFIG
+from MARIADB_CREDS import DB_CONFIG
 
 from models.Book import Book
 from models.User import User
