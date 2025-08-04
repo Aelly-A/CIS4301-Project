@@ -368,7 +368,6 @@ def search_users():
 
 
 def search_waitlist():
-    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_waitlist = Waitlist()
     choice = "1"
     min_place_in_line = -1
@@ -408,13 +407,12 @@ def search_waitlist():
         print("--------------------")
         print()
 
-    waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, use_patterns=use_patterns,
-                                  min_place_in_line=min_place_in_line, max_place_in_line=max_place_in_line)
+    waitlist_entries = db.get_filtered_waitlist(filter_attributes=new_waitlist, min_place_in_line=min_place_in_line,
+                                                max_place_in_line=max_place_in_line)
     print_list_of_objects(waitlist_entries, "waitlisted user")
         
 
 def search_loan():
-    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_loan = Loan()
     choice = "1"
     min_checkout_date = ""
@@ -465,13 +463,12 @@ def search_loan():
         print("--------------------")
         print()
 
-    loans = db.get_filtered_loans(filter_attributes=new_loan, use_patterns=use_patterns,
-                                             min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
-                                             min_due_date=min_due_date, max_due_date=max_due_date)
+    loans = db.get_filtered_loans(filter_attributes=new_loan, min_checkout_date=min_checkout_date,
+                                  max_checkout_date=max_checkout_date, min_due_date=min_due_date,
+                                  max_due_date=max_due_date)
     print_list_of_objects(loans, "loan")
 
 def search_loan_history():
-    use_patterns = input("Would you like to use patterns to search String attributes? (Y/N): ").upper() == "Y"
     new_loan_history = LoanHistory()
     choice = "1"
     min_checkout_date = ""
@@ -532,10 +529,10 @@ def search_loan_history():
         print("--------------------")
         print()
 
-    loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, use_patterns=use_patterns,
-                                    min_checkout_date=min_checkout_date, max_checkout_date=max_checkout_date,
-                                    min_due_date=min_due_date, max_due_date=max_due_date,
-                                    min_return_date=min_return_date, max_return_date=max_return_date)
+    loans = db.get_filtered_loan_histories(filter_attributes=new_loan_history, min_checkout_date=min_checkout_date,
+                                           max_checkout_date=max_checkout_date, min_due_date=min_due_date,
+                                           max_due_date=max_due_date, min_return_date=min_return_date,
+                                           max_return_date=max_return_date)
     print_list_of_objects(loans, "return")
 
 
