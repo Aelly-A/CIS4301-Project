@@ -67,7 +67,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
 
 
 def main():
-    data_dir = input("What directory contains the sql files you wish to load in (data/ is the default): ")
+    data_dir = input("What directory contains the sql files you wish to load in (data/ is the default): ").strip()
     if data_dir == "":
         data_dir = "data/"
     elif data_dir[-1] != "/":
