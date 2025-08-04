@@ -36,7 +36,7 @@ def edit_user(original_account_id: str = None, new_user: User = None):
     original_account_id - A string containing the account id for the user to be edited. e.g. if the original_account_id =
         "f3aa549b042a", then all attributes that are being updated should be applied to the user in the DB with account_id ==
         "f3aa549b042a". original_account_id will never be None
-    new_user - A User object containing attributes to update for a user in the database. If an attribute is None
+    new_user - A User object containing attributes to update for a user in the database. If an attribute is None,
         then it should not be altered. e.g. if new_user.name = "John" then the user with the same account_id as
         original_account_id should have their name updated to "John". If filter_attributes.name = None, then the name should
         not be altered. new_user will never be None, but any attribute not being updated will be None.
@@ -57,7 +57,7 @@ def waitlist_user(isbn: str = None, account_id: str = None) -> int:
     isbn - A string containing the ISBN for the book that a user desires to be waitlisted for. isbn will never be None.
     account_id - A string containing the account id for the user that wants to be waitlisted. account_id will never be None.
 
-    returns an integer that is the user's place in line to checkout the book.
+    returns an integer that is the user's place in line to check out the book.
     """
     return -1
 
@@ -90,15 +90,15 @@ def get_filtered_books(filter_attributes: Book = None,
                        min_publication_year: int = -1,
                        max_publication_year: int = -1) -> list[Book]:
     """
-    filter_attributes - A Book object containing attributes to filter books in the database. If an attribute is None
+    filter_attributes - A Book object containing attributes to filter books in the database. If an attribute is None,
         then it should not be considered for the search. e.g. if filter_attributes.title = "1984" then all books returned
-        should have their title == "1984". If filter_attributes.author = None then we do not care what the author is, when
+        should have their title == "1984". If filter_attributes.author = None, then we do not care what the author is when
         filtering. It is important to note that filter_attributes.publication_year will always be -1 since we have
         separate parameters to handle publication_year. Additionally, many attributes may be used as a filter simultaneously.
         filter_attributes will never be None, but any attribute not being used as a filter will be None.
     use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical
         string literals, so the filtering should handle this accordingly. e.g. if filter_attributes.title = "The Great%" and
-        use_patterns = True, then all Books returned should have their title start with "The Great%". If use_patterns = False
+        use_patterns = True, then all Books returned should have their title start with "The Great%". If use_patterns = False,
         then all books returned should have their title == "The Great%".
     min_publication_year - The minimum publication year to filter books by, inclusively. e.g. if min_publication_year = 2000,
         then all books should be published between 2000 and the current year, including 2000 and the current year. If
@@ -115,14 +115,14 @@ def get_filtered_books(filter_attributes: Book = None,
 
 def get_filtered_users(filter_attributes: User = None, use_patterns: bool = False) -> list[User]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None
+    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when
+        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None.
     use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical
         string literals, so the search should handle this accordingly. e.g. if filter_attributes.name = "John%" and
-        use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False then
+        use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False, then
         all users returned should have their name == "John%".
 
     returns a list of User objects with users who meet the qualifications of the filters. If no users meet the requirements,
@@ -137,9 +137,9 @@ def get_filtered_loans(filter_attributes: Loan = None,
                        min_due_date: str = None,
                        max_due_date: str = None, ) -> list[Loan]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None
+    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when
+        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is, when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None.
     min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if
@@ -165,9 +165,9 @@ def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
                                 min_return_date: str = None,
                                 max_return_date: str = None) -> list[LoanHistory]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None
+    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when
+        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None.
     min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if
@@ -193,9 +193,9 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
                           min_place_in_line: int = -1,
                           max_place_in_line: int = -1) -> list[Waitlist]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None
+    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None then we do not care what the address is, when
+        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None.
     min_place_in_line - The minimum place in line for a waitlist to be. e.g. if min_place_in_line = 3 then only entries
@@ -206,7 +206,7 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
          -1.
 
     returns a list of Waitlist objects with waitlist entries that meet the qualifications of the filters. If no entries meet
-     the requirements, then an empty list is returned,
+     the requirements, then an empty list is returned.
     """
     return []
 
@@ -217,7 +217,7 @@ def number_in_stock(isbn: str = None) -> int:
 
     returns the quantity of books available with their ISBN equal to the isbn parameter. The quantity available should be
         calculated as how many copies the branch owns minus how many copies are checked out to users. If the library does
-        not own book, then -1 should be returned.
+        not own the book, then -1 should be returned.
     """
     return 0
 
