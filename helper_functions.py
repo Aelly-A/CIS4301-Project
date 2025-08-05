@@ -89,13 +89,14 @@ def print_list_of_objects(objects: list, object_name: str):
         print(f"No {object_name}s found")
 
     else:
-        print(f"Found {str(len(objects))} {object_name}{'s' if len(objects) > 1 else ''}:\n")
-
         for o in objects:
             print("-" * 20)
             print(str(o)[:-1])
             print("-" * 20)
-        
+
+        print()
+        print(f"Found {str(len(objects))} {object_name}{'s' if len(objects) > 1 else ''}.")
+
 
 # Generic print menu function
 def print_menu(menu_header, options):
