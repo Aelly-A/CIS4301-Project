@@ -1,5 +1,6 @@
 import db_handler as db
 from models.LoanHistory import LoanHistory
+from datetime import timedelta, datetime
 from models.Waitlist import Waitlist
 from models.Book import Book
 from models.User import User
@@ -175,10 +176,44 @@ def handle_user_menu_choice(choice, new_user=User()):
     return new_user
 
 
+def check_if_user_exists(account_id):
+    user_exists = len(db.get_filtered_users(User(account_id=account_id))) == 1
+
+    return user_exists
+
+
+def check_if_book_exists(isbn):
+    book_exists = len(db.get_filtered_books(Book(isbn=isbn))) == 1
+
+    return book_exists
+
+
+def run_basic_checks(isbn, account_id):
+    book_exists = check_if_book_exists(isbn)
+    user_exists = check_if_user_exists(account_id)
+    checks_passed = True
+
+    if not book_exists:
+        print("Book not found")
+        checks_passed = False
+
+    if not user_exists:
+        print("User not found")
+        checks_passed = False
+
+    return checks_passed
+
+
 def add_book():
     num_owned = 0
     publication_year = -1
     isbn = input("Enter ISBN: ")
+    book_exists = check_if_book_exists(isbn)
+
+    if book_exists:
+        print("A book with that ISBN already exists.")
+        return
+
     title = input("Enter Title: ")
     author = input("Enter Author: ")
     publisher = input("Enter Publisher: ")
@@ -213,6 +248,12 @@ def add_book():
 
 def add_user():
     account_id = input("Enter Account ID: ")
+    user_exists = check_if_user_exists(account_id)
+
+    if user_exists:
+        print("A user with that Account ID already exists.")
+        return
+
     name = input("Enter Name: ")
     email = input("Enter Email: ")
     phone_number = input("Enter Phone Number: ")
@@ -224,6 +265,12 @@ def add_user():
 
 def edit_user():
     og_account_id = input("User's Account ID: ")
+
+    user_exists = check_if_user_exists(og_account_id)
+    if user_exists:
+        print("A user with that Account ID already exists.")
+        return
+
     new_user = User()
     choice = '1'
 
@@ -237,6 +284,9 @@ def edit_user():
 
 
 def waitlist_user(isbn=None, account_id=None):
+    if not run_basic_checks(isbn, account_id):
+        return
+
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
 
     if waitlist:
@@ -253,20 +303,26 @@ def waitlist_user(isbn=None, account_id=None):
             num_suffix = "rd"
 
         print(f"The user is now {place_in_line}{num_suffix} in line to checkout the book")
+    else:
+        print("The user was not waitlisted")
 
 
 def checkout_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    num_in_stock = db.number_in_stock(isbn=isbn)
+    if not run_basic_checks(isbn, account_id):
+        return
 
-    if num_in_stock == 0:  # Out of stock, waitlist the user
+    num_in_stock = db.number_in_stock(isbn=isbn)
+    user_has_book = len(db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))) > 0
+
+    if user_has_book:
+        print("The user has already checked out the book")
+
+    elif num_in_stock == 0:  # Out of stock, waitlist the user
         print("This book is not available right now.")
         waitlist_user(isbn=isbn, account_id=account_id)
-
-    elif num_in_stock == -1: # Book not available
-        print("This library branch does not carry this book.")
 
     else: # Check if user is able to check out the book
         user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
@@ -278,24 +334,53 @@ def checkout_book():
             print("Successfully checked out book")
 
         else: # There is a waitlist and user isn't next
-            print("User is not next in line to checkout book.")
-
-            if people_in_line > 0 and user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
+            if people_in_line > 0:
+                print("The user is not waitlisted for the book.")
                 waitlist_user(isbn=isbn, account_id=account_id)
+
+            if user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
+                print("The user is not next in line to checkout book.")
 
 
 def return_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    db.return_book(isbn=isbn, account_id=account_id)
+    if not run_basic_checks(isbn, account_id):
+        return
+
+    user_has_book = len(db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))) > 0
+
+    if not user_has_book:
+        print("The user does have the book")
+
+    else:
+        db.return_book(isbn=isbn, account_id=account_id)
+        print("Successfully returned the book")
 
 
 def grant_extension():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    db.grant_extension(isbn=isbn, account_id=account_id)
+    if not run_basic_checks(isbn, account_id):
+        return
+
+    current_loan = db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))
+
+    if len(current_loan) == 0:
+        print("The user does not have the book")
+
+    else:
+        loan = current_loan[0]
+
+        user_already_has_extension = datetime.fromisoformat(loan.due_date) - datetime.fromisoformat(loan.checkout_date) == timedelta(weeks=4)
+
+        if user_already_has_extension:
+            print("The user already has an extension and may not be granted another one")
+        else:
+            db.grant_extension(isbn=isbn, account_id=account_id)
+            print("Successfully granted extension")
 
 
 def search_books():
