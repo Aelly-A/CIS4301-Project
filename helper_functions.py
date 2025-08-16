@@ -117,6 +117,7 @@ def print_main_menu():
     menu_header = "What would you like to do?"
     return print_menu(menu_header, MAIN_MENU_OPTIONS)
 
+
 def print_filter_menu(options):
     menu_header = "Which attribute would you like to filter?"
     return print_menu(menu_header, options)
@@ -188,7 +189,7 @@ def check_if_book_exists(isbn):
     return book_exists
 
 
-def run_basic_checks(isbn, account_id):
+def check_if_book_and_user_exists(isbn, account_id):
     book_exists = check_if_book_exists(isbn)
     user_exists = check_if_user_exists(account_id)
     checks_passed = True
@@ -284,7 +285,7 @@ def edit_user():
 
 
 def waitlist_user(isbn=None, account_id=None):
-    if not run_basic_checks(isbn, account_id):
+    if not check_if_book_and_user_exists(isbn, account_id):
         return
 
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
@@ -303,6 +304,7 @@ def waitlist_user(isbn=None, account_id=None):
             num_suffix = "rd"
 
         print(f"The user is now {place_in_line}{num_suffix} in line to checkout the book")
+
     else:
         print("The user was not waitlisted")
 
@@ -311,7 +313,7 @@ def checkout_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    if not run_basic_checks(isbn, account_id):
+    if not check_if_book_and_user_exists(isbn, account_id):
         return
 
     num_in_stock = db.number_in_stock(isbn=isbn)
@@ -346,7 +348,7 @@ def return_book():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    if not run_basic_checks(isbn, account_id):
+    if not check_if_book_and_user_exists(isbn, account_id):
         return
 
     user_has_book = len(db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))) > 0
@@ -363,7 +365,7 @@ def grant_extension():
     isbn = input("Enter ISBN: ")
     account_id = input("Enter Account ID: ")
 
-    if not run_basic_checks(isbn, account_id):
+    if not check_if_book_and_user_exists(isbn, account_id):
         return
 
     current_loan = db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))
