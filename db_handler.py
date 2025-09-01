@@ -18,7 +18,7 @@ cur = conn.cursor()
 def add_book(new_book: Book = None):
     """
     new_book - A Book object containing a new book to be inserted into the DB in the Books table.
-        new_book and no value inside it will ever be None.
+        new_book and it's attributes will never be None.
     """
     pass
 
@@ -26,7 +26,7 @@ def add_book(new_book: Book = None):
 def add_user(new_user: User = None):
     """
     new_user - A User object containing a new user to be inserted into the DB in the Users table.
-        new_user and no value inside it will ever be None.
+        new_user and it's attributes will never be None.
     """
     pass
 
