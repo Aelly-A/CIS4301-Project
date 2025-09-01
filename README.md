@@ -1,3 +1,3 @@
 # CIS4301-Project
 
-See Specification.md
+See Specification.pdf
