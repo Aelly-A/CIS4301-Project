@@ -8,5 +8,4 @@ autograder.py
 private_tests.py
 DONTPUSHDBHANDLER.py
 Specification.md
-ER_me.svg
-ER_mm.svg
+ER.svg
