@@ -95,7 +95,8 @@ def get_filtered_books(filter_attributes: Book = None,
         should have their title == "1984". If filter_attributes.author = None, then we do not care what the author is when
         filtering. It is important to note that filter_attributes.publication_year will always be -1 since we have
         separate parameters to handle publication_year. Additionally, many attributes may be used as a filter simultaneously.
-        filter_attributes will never be None, but any attribute not being used as a filter will be None.
+        filter_attributes will never be None, but any attribute not being used as a filter will be None. It is also possible
+        all the attributes in filter_attributes to be None, if that is the case then all rows should be returned.
     use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical
         string literals, so the filtering should handle this accordingly. e.g. if filter_attributes.title = "The Great%" and
         use_patterns = True, then all Books returned should have their title start with "The Great%". If use_patterns = False,
@@ -119,7 +120,8 @@ def get_filtered_users(filter_attributes: User = None, use_patterns: bool = Fals
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
         should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
-        None, but any attribute not being used as a filter will be None.
+        None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
+        filter_attributes to be None, if that is the case then all rows should be returned.
     use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical
         string literals, so the search should handle this accordingly. e.g. if filter_attributes.name = "John%" and
         use_patterns = True, then all Users returned should have their name start with "John". If use_patterns = False, then
@@ -141,7 +143,8 @@ def get_filtered_loans(filter_attributes: Loan = None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
         should have their name == "John". If filter_attributes.address = None, then we do not care what the address is, when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
-        None, but any attribute not being used as a filter will be None.
+        None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
+        filter_attributes to be None, if that is the case then all rows should be returned.
     min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if
         min_checkout_date = "2025-01-02", then all loans should be checked out after "2025-01-01", not including
         "2025-01-01". If min_checkout_date is not used, it will be None
@@ -169,7 +172,8 @@ def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
         should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
-        None, but any attribute not being used as a filter will be None.
+        None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
+        filter_attributes to be None, if that is the case then all rows should be returned.
     min_checkout_date - The minimum checkout date (formatted in YYYY-mm-dd) to filter loans by, inclusively. e.g. if
         min_checkout_date = "2025-01-02", then all loans should be checked out after "2025-01-01", not including
         "2025-01-01". If min_checkout_date is not used, it will be None
@@ -197,7 +201,8 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
         then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
         should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
-        None, but any attribute not being used as a filter will be None.
+        None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
+        filter_attributes to be None, if that is the case then all rows should be returned.
     min_place_in_line - The minimum place in line for a waitlist to be. e.g. if min_place_in_line = 3 then only entries
         where the place_in_line is greater than or equal to 3 should be included. If min_place_in_line is not used, it will
         be -1.
