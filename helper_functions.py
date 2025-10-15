@@ -267,11 +267,6 @@ def add_user():
 def edit_user():
     og_account_id = input("User's Account ID: ")
 
-    user_exists = check_if_user_exists(og_account_id)
-    if user_exists:
-        print("A user with that Account ID already exists.")
-        return
-
     new_user = User()
     choice = '1'
 
