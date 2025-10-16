@@ -38,9 +38,9 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
                 for line in file:
                     cur.execute(line, ["?"] * line.count("?"))
 
-                if verbose:
-                    print("Inserted data from", filename)
-                    print()
+        if verbose:
+            print("Inserted data from", filename)
+            print()
 
         if parent_cur is None and parent_conn is None:
             cur.close()
