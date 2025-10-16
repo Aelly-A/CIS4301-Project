@@ -94,9 +94,10 @@ def get_filtered_books(filter_attributes: Book = None,
         then it should not be considered for the search. e.g. if filter_attributes.title = "1984" then all books returned
         should have their title == "1984". If filter_attributes.author = None, then we do not care what the author is when
         filtering. It is important to note that filter_attributes.publication_year will always be -1 since we have
-        separate parameters to handle publication_year. Additionally, many attributes may be used as a filter simultaneously.
-        filter_attributes will never be None, but any attribute not being used as a filter will be None. It is also possible
-        all the attributes in filter_attributes to be None, if that is the case then all rows should be returned.
+        separate parameters to handle publication_year. It is also worth noting that since num_owned is an integer, it
+        can't be None, so it will default to -1 instead when not used. Additionally, many attributes may be used as a
+        filter simultaneously. filter_attributes will never be None, but any attribute not being used as a filter will be None.
+        It is also possible all the attributes in filter_attributes to be None, if that is the case then all rows should be returned.
     use_patterns - If True, then the string attributes in filter_attributes may contain string patterns rather than typical
         string literals, so the filtering should handle this accordingly. e.g. if filter_attributes.title = "The Great%" and
         use_patterns = True, then all Books returned should have their title start with "The Great%". If use_patterns = False,
