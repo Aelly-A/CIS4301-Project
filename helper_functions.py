@@ -192,15 +192,13 @@ def check_if_book_exists(isbn):
 def check_if_book_and_user_exists(isbn, account_id):
     book_exists = check_if_book_exists(isbn)
     user_exists = check_if_user_exists(account_id)
-    checks_passed = True
+    checks_passed = book_exists and user_exists
 
     if not book_exists:
         print("Book not found")
-        checks_passed = False
 
     if not user_exists:
         print("User not found")
-        checks_passed = False
 
     return checks_passed
 
