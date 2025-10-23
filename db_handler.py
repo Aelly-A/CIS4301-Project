@@ -140,9 +140,9 @@ def get_filtered_loans(filter_attributes: Loan = None,
                        min_due_date: str = None,
                        max_due_date: str = None, ) -> list[Loan]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
-        then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is, when
+    filter_attributes - A Loan object containing attributes to filter loan in the database. If an attribute is None,
+        then it should not be considered for the search. e.g. if filter_attributes.isbn = "123456789" then all loans returned
+        should have their isbn == "123456789". If filter_attributes.isbn = None, then we do not care what the isbn is, when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
         filter_attributes to be None, if that is the case then all rows should be returned.
@@ -169,9 +169,9 @@ def get_filtered_loan_histories(filter_attributes: LoanHistory = None,
                                 min_return_date: str = None,
                                 max_return_date: str = None) -> list[LoanHistory]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
-        then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
+    filter_attributes - A LoanHistory object containing attributes to filter loan histories in the database. If an attribute is None,
+        then it should not be considered for the search. e.g. if filter_attributes.isbn = "123456789" then all rows returned
+        should have their isbn == "123456789". If filter_attributes.isbn = None, then we do not care what the isbn is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
         filter_attributes to be None, if that is the case then all rows should be returned.
@@ -198,9 +198,9 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
                           min_place_in_line: int = -1,
                           max_place_in_line: int = -1) -> list[Waitlist]:
     """
-    filter_attributes - A User object containing attributes to filter users in the database. If an attribute is None,
-        then it should not be considered for the search. e.g. if filter_attributes.name = "John" then all users returned
-        should have their name == "John". If filter_attributes.address = None, then we do not care what the address is when
+    filter_attributes - A Waitlist object containing attributes to filter waitlists in the database. If an attribute is None,
+        then it should not be considered for the search. e.g. if filter_attributes.isbn = "123456789" then all rows returned
+        should have their isbn == "123456789". If filter_attributes.isbn = None, then we do not care what the isbn is when
         filtering. Additionally, many attributes may be used as a filter simultaneously. filter_attributes will never be
         None, but any attribute not being used as a filter will be None. It is also possible all the attributes in
         filter_attributes to be None, if that is the case then all rows should be returned.

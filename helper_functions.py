@@ -501,10 +501,10 @@ def search_waitlist():
 def search_loan():
     new_loan = Loan()
     choice = "1"
-    min_checkout_date = ""
-    max_checkout_date = ""
-    min_due_date = ""
-    max_due_date = ""
+    min_checkout_date = None
+    max_checkout_date = None
+    min_due_date = None
+    max_due_date = None
 
     while choice != "7" and choice != "8":
         choice = print_filter_loan_menu()
@@ -557,12 +557,12 @@ def search_loan():
 def search_loan_history():
     new_loan_history = LoanHistory()
     choice = "1"
-    min_checkout_date = ""
-    max_checkout_date = ""
-    min_due_date = ""
-    max_due_date = ""
-    min_return_date = ""
-    max_return_date = ""
+    min_checkout_date = None
+    max_checkout_date = None
+    min_due_date = None
+    max_due_date = None
+    min_return_date = None
+    max_return_date = None
 
     while choice != "9" and choice != "10":
         choice = print_filter_loan_history_menu()
