@@ -219,7 +219,7 @@ def get_filtered_waitlist(filter_attributes: Waitlist = None,
 
 def number_in_stock(isbn: str = None) -> int:
     """
-    isbn - A string containing the ISBN for a book.
+    isbn - A string containing the ISBN for a book. ISBN will never be None.
 
     returns the quantity of books available with their ISBN equal to the isbn parameter. The quantity available should be
         calculated as how many copies the branch owns minus how many copies are checked out to users. If the library does
@@ -230,8 +230,8 @@ def number_in_stock(isbn: str = None) -> int:
 
 def place_in_line(isbn: str = None, account_id: str = None) -> int:
     """
-    isbn - A string containing the ISBN for a book
-    account_id - A string containing the account id for a user
+    isbn - A string containing the ISBN for a book. ISBN will never be None.
+    account_id - A string containing the account id for a user. account_id will never be None.
 
     returns what place in line the user with the corresponding account_id is in for the book with the corresponding ISBN. If
         the user is not on the waitlist for that book, then -1 should be returned.
@@ -241,7 +241,7 @@ def place_in_line(isbn: str = None, account_id: str = None) -> int:
 
 def line_length(isbn: str = None) -> int:
     """
-    isbn - A string containing the ISBN for a book
+    isbn - A string containing the ISBN for a book. ISBN will never be None.
 
     returns how many people are on the waitlist for the book with the corresponding ISBN. e.g. if there are 5 people on the
         waitlist for a book, 5 should be returned. If there is no waitlist for the book, then 0 should be returned.
