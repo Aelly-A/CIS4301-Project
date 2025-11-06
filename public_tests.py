@@ -283,7 +283,7 @@ class PublicTests(TestCase):
         temp_cur.execute("SHOW PROCESSLIST")
         process_open = len(temp_cur.fetchall())
 
-        db.close_connection()
+        self.db.close_connection()
 
         temp_cur.execute("SHOW PROCESSLIST")
         process_open_after_close = len(temp_cur.fetchall())
