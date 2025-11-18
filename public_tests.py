@@ -116,8 +116,8 @@ class PublicTests(TestCase):
 
 
     def test_waitlist_user(self):
-        random_user = "f6be25a23faa"
-        loaned_book_isbn = "0439344344"
+        random_user = "f0bcbb3befe9"
+        loaned_book_isbn = "0446389277"
 
         place_in_line = self.db.waitlist_user(isbn=loaned_book_isbn, account_id=random_user)
 
