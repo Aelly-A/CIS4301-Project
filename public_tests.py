@@ -277,7 +277,7 @@ class PublicTests(TestCase):
 
     def test_close_connection(self):
         temp_conn = connect(user=DB_CONFIG["username"], password=DB_CONFIG["password"], host=DB_CONFIG["host"],
-                       database=DB_CONFIG["database"])
+                       database=DB_CONFIG["database"], port=DB_CONFIG["port"])
         temp_cur = temp_conn.cursor()
 
         temp_cur.execute("SHOW PROCESSLIST")
