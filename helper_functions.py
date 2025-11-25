@@ -316,16 +316,19 @@ def checkout_book():
 
     num_in_stock = db.number_in_stock(isbn=isbn)
     user_has_book = len(db.get_filtered_loans(Loan(isbn=isbn, account_id=account_id))) > 0
+    user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
 
     if user_has_book:
         print("The user has already checked out the book")
 
-    elif num_in_stock == 0:  # Out of stock, waitlist the user
-        print("This book is not available right now.")
-        waitlist_user(isbn=isbn, account_id=account_id)
+    elif num_in_stock == 0 :  # Out of stock, waitlist the user
+        if user_place_in_line == -1:
+            print("This book is not available right now.")
+            waitlist_user(isbn=isbn, account_id=account_id)
+        else:
+            print("The user is waitlisted, but the book is still not available for checkout")
 
     else: # Check if user is able to check out the book
-        user_place_in_line = db.place_in_line(isbn=isbn, account_id=account_id)
         people_in_line = db.line_length(isbn=isbn)
 
         if user_place_in_line == 1 or people_in_line == 0: # User is either next in line or there is no waitlist
