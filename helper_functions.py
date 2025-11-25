@@ -286,6 +286,11 @@ def waitlist_user(isbn=None, account_id=None):
     if not check_if_book_and_user_exists(isbn, account_id):
         return
 
+    if db.place_in_line(isbn=isbn, account_id=account_id) != -1:
+        print("User is already waitlisted")
+        return
+
+
     waitlist = input("Would you like to waitlist the User (Y/N): ").upper() == "Y"
 
     if waitlist:
@@ -472,9 +477,9 @@ def search_waitlist():
                 new_account_id = input("Account ID: ")
                 new_waitlist.account_id = new_account_id
             elif choice == "3":
-                min_place_in_line = int(input("Min Publication Year: "))
+                min_place_in_line = int(input("Min Place in Line: "))
             elif choice == "4":
-                max_place_in_line = int(input("Max Publication Year: "))
+                max_place_in_line = int(input("Max Place in Line: "))
             elif choice not in ["5", "6"]:
                 print("Unrecognized choice")
 
