@@ -335,11 +335,11 @@ def checkout_book():
 
         else: # There is a waitlist and user isn't next
             if people_in_line > 0:
-                print("The user is not waitlisted for the book.")
-                waitlist_user(isbn=isbn, account_id=account_id)
+                print("The user is not next in line to checkout book.")
 
             if user_place_in_line == -1: # If the user isn't waitlisted then ask to waitlist them
-                print("The user is not next in line to checkout book.")
+                print("The user is not waitlisted for the book.")
+                waitlist_user(isbn=isbn, account_id=account_id)
 
 
 def return_book():
