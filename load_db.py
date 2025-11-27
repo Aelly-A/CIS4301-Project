@@ -9,17 +9,19 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
         if parent_cur is None and parent_conn is None:
             username = DB_CONFIG["username"]
             password = DB_CONFIG["password"]
+            host= DB_CONFIG["host"]
             port = DB_CONFIG["port"]
+            database = DB_CONFIG["database"]
 
             print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
 
-            conn = connect(username=username, password=password, host="localhost", port=port) # , collation='utf8mb4_unicode_ci')
+            conn = connect(username=username, password=password, host=host, port=port) # , collation='utf8mb4_unicode_ci')
             cur = conn.cursor()
         else:
             cur = parent_cur
 
-        cur.execute('CREATE DATABASE IF NOT EXISTS library')
-        cur.execute('USE library')
+        cur.execute('CREATE DATABASE IF NOT EXISTS ?', database)
+        cur.execute('USE ?', database)
 
         if verbose:
             print()
