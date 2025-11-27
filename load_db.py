@@ -1,4 +1,4 @@
-from mariadb import connect, ProgrammingError
+from mysql.connector import connect, ProgrammingError
 from MARIADB_CREDS import DB_CONFIG
 
 def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
@@ -15,13 +15,12 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
 
             print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
 
-            conn = connect(username=username, password=password, host=host, port=port) # , collation='utf8mb4_unicode_ci')
-            cur = conn.cursor()
+            conn = connect(user=username, password=password, host=host, port=port, database=database) # , collation='utf8mb4_unicode_ci')
+            cur = conn.cursor(prepared=True,)
+
+            print("Connected")
         else:
             cur = parent_cur
-
-        cur.execute('CREATE DATABASE IF NOT EXISTS ?', database)
-        cur.execute('USE ?', database)
 
         if verbose:
             print()
@@ -38,7 +37,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
 
                 # The second argument is due to MariaDB using '?' as a placeholder, so we're saying put ? in its place
                 for line in file:
-                    cur.execute(line, ["?"] * line.count("?"))
+                    cur.execute(line)
 
         if verbose:
             print("Inserted data from", filename)
