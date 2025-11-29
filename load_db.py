@@ -11,7 +11,6 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
             password = DB_CONFIG["password"]
             host= DB_CONFIG["host"]
             port = DB_CONFIG["port"]
-            database = DB_CONFIG["database"]
 
             print(f"\nUsing:\n\tUsername: {username}\n\tPassword: {password}\n\tPort: {port}\n\tData Directory: {data_dir}")
 
@@ -20,6 +19,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
         else:
             cur = parent_cur
 
+        database = DB_CONFIG["database"]
         cur.execute('CREATE DATABASE IF NOT EXISTS ?', database)
         cur.execute('USE ?', database)
 
