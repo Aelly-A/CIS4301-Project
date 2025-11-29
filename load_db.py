@@ -20,8 +20,8 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
             cur = parent_cur
 
         database = DB_CONFIG["database"]
-        cur.execute('CREATE DATABASE IF NOT EXISTS ?', database)
-        cur.execute('USE ?', database)
+        cur.execute(f'CREATE DATABASE IF NOT EXISTS {database}')
+        cur.execute(f'USE {database}')
 
         if verbose:
             print()
