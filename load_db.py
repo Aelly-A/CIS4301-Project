@@ -1,4 +1,4 @@
-from mariadb import connect, ProgrammingError
+from mysql.connector import connect, ProgrammingError
 from MARIADB_CREDS import DB_CONFIG
 
 def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
