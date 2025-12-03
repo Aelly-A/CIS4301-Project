@@ -28,7 +28,7 @@ def load_db(data_dir='data/', verbose=True, parent_cur=None, parent_conn=None):
             print("Connected to the DB")
             print("Inserting Data...")
 
-        filenames = ["book.sql", "user.sql", "loan_history.sql", "loan.sql", "waitlist.sql"]
+        filenames = ["loan_history.sql", "loan.sql", "waitlist.sql", "book.sql", "user.sql"]
 
         # Run through all the data files and execute them line by line
         for filename in filenames:
