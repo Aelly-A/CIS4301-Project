@@ -413,7 +413,7 @@ def search_books():
             elif choice == "4":
                 new_publisher = input("Publisher: ")
                 new_book.publisher = new_publisher
-            elif choice == "4":
+            elif choice == "5":
                 new_num_owned = input("Number of Copies Owned: ")
                 new_book.num_owned = new_num_owned
             elif choice == "6":
